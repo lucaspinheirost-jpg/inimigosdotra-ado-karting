@@ -260,7 +260,8 @@
   }
   @media (prefers-reduced-motion: no-preference) {
     .idt-page:not([hidden]) { animation: idt-in var(--cds-dur-slow) var(--cds-ease-out); }
-    @keyframes idt-in { from { opacity: .4; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+    /* só opacidade: um transform aqui prenderia os balões fixos (position: fixed) dentro da página */
+    @keyframes idt-in { from { opacity: .4; } to { opacity: 1; } }
   }
 </style>
 
