@@ -60,12 +60,23 @@
     const f = dlg.querySelector('input'); if (f) f.focus();
   }
 
+  // botão no cabeçalho, visível em qualquer aba: "Entrar" para o admin ou "Sair" quando já entrou
+  const topo = document.querySelector('.idt-bar');
+  const btnTopo = el('button', { type: 'button', class: 'idt-entrar', hidden: '' });
+  if (topo) topo.append(btnTopo);
+
   async function desenhar() {
     pe.replaceChildren();
     const marca = el('span', {}, 'Inimigos do Traçado · temporada de kart');
     if (!conta) { pe.append(marca, el('span', { class: 'idt-note' }, 'Modo local')); return; }
     const email = await conta.email();
-    if (email && window.IDT && IDT.canEdit) {
+    const admin = !!(email && window.IDT && IDT.canEdit);
+    btnTopo.hidden = false;
+    btnTopo.replaceChildren(el('span', { class: 'ic', 'aria-hidden': 'true' }, admin ? '⏻' : '🔒'), el('span', {}, admin ? 'Sair' : 'Entrar'));
+    btnTopo.title = admin ? 'Sair da conta de administrador (' + email + ')' : 'Entrar como administrador';
+    btnTopo.setAttribute('aria-label', btnTopo.title);
+    btnTopo.onclick = admin ? async () => { await conta.sair(); location.hash = ''; location.reload(); } : () => abrir('entrar');
+    if (admin) {
       pe.append(marca, el('span', { class: 'idt-rodape-conta' }, 'Administrador: ' + email + ' · ',
         el('button', { type: 'button', class: 'idt-rodape-link', onclick: async () => { await conta.sair(); location.hash = ''; location.reload(); } }, 'Sair')));
     } else {

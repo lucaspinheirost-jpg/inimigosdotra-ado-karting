@@ -8,6 +8,8 @@
     carregado: { provas: false, resultados: false, voltas: false, config: false, folhas: false },
     ouvintes: [],
   };
+  // piloto que já vem escolhido nos filtros (Análise, Comparar voltas, Raio-X e balão das Corridas)
+  IDT.PILOTO_PADRAO = 'Lucas Pinheiro';
   IDT.aoMudar = (fn) => { IDT.ouvintes.push(fn); };
   IDT.pista = (p) => [p.kartodromo, p.tracado, p.pisoLento ? 'piso lento' : ''].filter(Boolean).join(' · ');
   IDT.arquivoUrl = (id) => (window.claude && window.claude.arquivoUrl ? window.claude.arquivoUrl(id) : '/_blob/' + id);

@@ -227,6 +227,9 @@
   .idt-rodape-link { all: unset; cursor: pointer; color: var(--idt-ink-600); text-decoration: underline; text-underline-offset: 2px; }
   .idt-rodape-link:hover { color: var(--idt-primary); }
   .idt-rodape-link:focus-visible { outline: 2px solid var(--idt-primary); outline-offset: 2px; }
+  .idt-entrar { appearance: none; display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: var(--idt-r-control); border: 1px solid var(--idt-border); background: var(--idt-surface); color: var(--idt-ink-700); font: 500 13px var(--idt-sans); cursor: pointer; white-space: nowrap; }
+  .idt-entrar:hover { border-color: var(--idt-primary); color: var(--idt-primary); }
+  .idt-entrar .ic { font-size: 12px; line-height: 1; }
   .idt-login .idt-note { margin: 0 0 14px; }
   .idt-login-form { display: grid; gap: 14px; }
   .idt-login-form .idt-btn.ghost { justify-self: center; }
@@ -242,6 +245,7 @@
     .idt-bar { top: 0; padding: .375rem .5rem; gap: .25rem .75rem; border-radius: 0 0 var(--idt-r-card) var(--idt-r-card); }
     .idt-logo-img { width: 44px; height: 38px; }
     .idt-word span, .idt-season { display: none; }
+    .idt-entrar { margin-left: auto; height: 32px; padding: 0 10px; }
     .idt-nav { order: 3; flex: 1 0 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -.25rem; }
     .idt-nav::-webkit-scrollbar { display: none; }
     .idt-nav button { flex: none; height: 34px; padding: 0 10px; }
@@ -818,7 +822,8 @@ dash.calc('resumo', {
 
   // ---------- comparador ----------
   const defaults = (rows) => {
-    if (!S.a || !rows.some((r) => r.piloto === S.a)) S.a = rows[0] && rows[0].piloto;
+    // piloto que já vem escolhido nos filtros (IDT.PILOTO_PADRAO); sem ele, o primeiro da lista
+    if (!S.a || !rows.some((r) => r.piloto === S.a)) S.a = rows.some((r) => r.piloto === IDT.PILOTO_PADRAO) ? IDT.PILOTO_PADRAO : rows[0] && rows[0].piloto;
     if (!S.b || S.b === S.a || !rows.some((r) => r.piloto === S.b)) S.b = (rows.find((r) => r.piloto !== S.a) || {}).piloto;
   };
   const picker = (name, key) => dash.draw(name, (sel) => {
@@ -1022,7 +1027,11 @@ dash.calc('ritmo', {
     if (!I.porProva.has(S.vRace)) S.vRace = Math.max(...I.porProva.keys());
     const ps = I.porProva.get(S.vRace);
     S.vDrivers = S.vDrivers.filter((p) => ps.has(p));
-    if (!S.vDrivers.length) S.vDrivers = [...ps].sort((a, b) => (I.pos.get(S.vRace + '|' + a) || 99) - (I.pos.get(S.vRace + '|' + b) || 99)).slice(0, 3);
+    if (!S.vDrivers.length) {
+      const ordem = [...ps].sort((a, b) => (I.pos.get(S.vRace + '|' + a) || 99) - (I.pos.get(S.vRace + '|' + b) || 99));
+      const fixo = ps.has(IDT.PILOTO_PADRAO) ? [IDT.PILOTO_PADRAO] : [];
+      S.vDrivers = [...fixo, ...ordem.filter((p) => !fixo.includes(p))].slice(0, 3);
+    }
     const temVoltas = (p) => [...I.porProva.entries()].filter(([, s]) => s.has(p)).map(([n]) => n).sort((a, b) => a - b);
     if (!S.vDriver || !temVoltas(S.vDriver).length) S.vDriver = S.a && temVoltas(S.a).length ? S.a : S.vDrivers[0];
     const rs = temVoltas(S.vDriver);
@@ -1374,7 +1383,7 @@ dash.calc('referencia_pista', {
   // ---------- estado ----------
   const ensureX = (rows) => {
     const nomes = new Set(rows.map((r) => r.piloto));
-    if (!S.xPiloto || !nomes.has(S.xPiloto)) S.xPiloto = nomes.has(S.a) ? S.a : (nomes.has('Lucas Pinheiro') ? 'Lucas Pinheiro' : [...nomes][0]);
+    if (!S.xPiloto || !nomes.has(S.xPiloto)) S.xPiloto = nomes.has(S.a) ? S.a : (nomes.has(IDT.PILOTO_PADRAO) ? IDT.PILOTO_PADRAO : [...nomes][0]);
     const minhas = rows.filter((r) => r.piloto === S.xPiloto);
     if (!minhas.some((r) => r.pista === S.xPista)) {
       S.xPista = minhas.slice().sort((a, b) => (b.s1 != null) - (a.s1 != null) || b.provas - a.provas)[0].pista;

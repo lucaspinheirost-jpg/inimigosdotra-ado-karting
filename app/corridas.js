@@ -142,8 +142,8 @@
     const res = resultado(p.id);
     const pos = new Map(res.map((l) => [l.piloto, l.pos]));
     const quem = [...vs.keys()].sort((a, b) => (pos.get(a) || 99) - (pos.get(b) || 99));
-    // no computador o balão já abre com o vencedor; no celular só quando tocar num piloto
-    if (!C.piloto && !C.fechado && window.innerWidth >= 1100) C.piloto = quem[0];
+    // no computador o balão já abre com o piloto padrão (ou o vencedor); no celular só quando tocar num piloto
+    if (!C.piloto && !C.fechado && window.innerWidth >= 1100) C.piloto = quem.includes(IDT.PILOTO_PADRAO) ? IDT.PILOTO_PADRAO : quem[0];
     const rs = new Map(quem.map((q) => [q, ritmo(vs.get(q))]));
     const geral = Math.min(...[...rs.values()].filter(Boolean).map((r) => r.melhor));
     const fp = folha(p.id, 'prova');
