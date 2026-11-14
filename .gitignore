@@ -1,0 +1,18 @@
+# gerado pelo build (a Vercel monta de novo a cada envio)
+app/dist/
+
+# banco e arquivos do servidor local (os dados de verdade ficam no Supabase)
+local/db/
+local/assets/
+local/store/
+
+# protótipos antigos, substituídos por app/
+painel_index.html
+administracao_src.html
+
+node_modules/
+.vercel/
+.env*
+*.log
+.DS_Store
+Thumbs.db

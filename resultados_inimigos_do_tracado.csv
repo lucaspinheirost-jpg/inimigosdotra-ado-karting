@@ -1,0 +1,331 @@
+corrida,data,kartodromo,pos,piloto,voltas,melhor_volta_s
+1,2025-12-06,Granja Viana,1,Ygor Dalmazo,16,62.56
+1,2025-12-06,Granja Viana,2,Willian Cardoso,16,64.37
+1,2025-12-06,Granja Viana,3,Henrique Drummond,16,63.111
+1,2025-12-06,Granja Viana,4,Felipe de Jesus,16,64.978
+1,2025-12-06,Granja Viana,5,Lucas Pinheiro,15,64.925
+1,2025-12-06,Granja Viana,6,Sanderson Rabelo,15,65.299
+1,2025-12-06,Granja Viana,7,Pedro Paulo,15,65.923
+1,2025-12-06,Granja Viana,8,Rodrigo Chaves,15,65.39
+1,2025-12-06,Granja Viana,9,Jose Wellington,15,66.637
+1,2025-12-06,Granja Viana,10,Bruno Henrique,15,67.109
+1,2025-12-06,Granja Viana,11,Isabelly Pinheiro,15,67.896
+1,2025-12-06,Granja Viana,12,Jose Abrahao,14,65.041
+1,2025-12-06,Granja Viana,13,Luis Paulo,14,66.553
+1,2025-12-06,Granja Viana,14,Diogo Pinheiro,14,67.818
+1,2025-12-06,Granja Viana,15,Francieudo Dantas,14,67.822
+1,2025-12-06,Granja Viana,16,Danila Regina,14,69.756
+1,2025-12-06,Granja Viana,17,Beatriz Bittencourt,13,70.169
+1,2025-12-06,Granja Viana,18,Lucas Souza,13,74.85
+1,2025-12-06,Granja Viana,19,Vitor Mascarenhas,13,67.426
+1,2025-12-06,Granja Viana,20,Vitória Ferraro,13,76.577
+1,2025-12-06,Granja Viana,21,Guilherme Gama,12,72.439
+1,2025-12-06,Granja Viana,22,Andrey Eduardo,11,72.037
+1,2025-12-06,Granja Viana,23,Victor Ferraro,11,74.078
+1,2025-12-06,Granja Viana,24,Fernanda Araujo,11,91.298
+1,2025-12-06,Granja Viana,25,Jose Aykon,10,70.554
+1,2025-12-06,Granja Viana,26,Gabriel Pinheiro,9,73.113
+2,2026-01-10,Granja Viana,1,Gabriel Gianussi,17,61.176
+2,2026-01-10,Granja Viana,2,João Pedro Lopes,17,61.19
+2,2026-01-10,Granja Viana,3,Raphael Tolini Neto,17,60.122
+2,2026-01-10,Granja Viana,4,Bruno Maionchi,17,60.743
+2,2026-01-10,Granja Viana,5,Lucas Santacroce,17,62.991
+2,2026-01-10,Granja Viana,6,Lucas Pinheiro,17,63.035
+2,2026-01-10,Granja Viana,7,Matheus Bertele,16,62.712
+2,2026-01-10,Granja Viana,8,Ricardo Pereira,16,64.455
+2,2026-01-10,Granja Viana,9,Felipe Oliveira,16,65.357
+2,2026-01-10,Granja Viana,10,Ronie Ferreira,16,65.706
+2,2026-01-10,Granja Viana,11,Guilherme Gama,15,64.382
+2,2026-01-10,Granja Viana,12,Vitor Mascarenhas,15,65.717
+2,2026-01-10,Granja Viana,13,Daniel Jardim,15,65.748
+2,2026-01-10,Granja Viana,14,Enzo Ferrari,15,67.528
+2,2026-01-10,Granja Viana,15,Felipe de Oliveira,15,66.14
+2,2026-01-10,Granja Viana,16,Alexandre Sabragia,15,66.555
+2,2026-01-10,Granja Viana,17,Matheus Gutemberg,15,68.699
+2,2026-01-10,Granja Viana,18,Leonardo Machado,15,66.007
+2,2026-01-10,Granja Viana,19,Andrey Eduardo,14,70.007
+2,2026-01-10,Granja Viana,20,Pedro Simões,14,70.474
+2,2026-01-10,Granja Viana,21,Clayton Humberto,14,71.326
+2,2026-01-10,Granja Viana,22,Vitória Ferraro,14,71.665
+2,2026-01-10,Granja Viana,23,Antonio Macedo,13,72.542
+2,2026-01-10,Granja Viana,24,Ligia Benetello,11,83.309
+2,2026-01-10,Granja Viana,25,Luana Leme Jardim,11,76.471
+2,2026-01-10,Granja Viana,26,Ana Clara,10,73.126
+2,2026-01-10,Granja Viana,27,Igor Machado,9,72.471
+2,2026-01-10,Granja Viana,28,Daniele Forte,4,84.294
+3,2026-02-01,Granja Viana,1,Lucas Santacroce,12,83.779
+3,2026-02-01,Granja Viana,2,Erick Albanez,12,81.761
+3,2026-02-01,Granja Viana,3,Luis Paulo,12,83.77
+3,2026-02-01,Granja Viana,4,Ygor Dalmazo,12,84.164
+3,2026-02-01,Granja Viana,5,Rodrigo Chaves,12,84.312
+3,2026-02-01,Granja Viana,6,Vitor Mascarenhas,12,84.392
+3,2026-02-01,Granja Viana,7,Sanderson Rabelo,12,86.106
+3,2026-02-01,Granja Viana,8,Lucas Pinheiro,12,85.195
+3,2026-02-01,Granja Viana,9,Franklin Araujo,12,85.822
+3,2026-02-01,Granja Viana,10,Willian Cardoso,12,83.766
+3,2026-02-01,Granja Viana,11,Diogo Pinheiro,11,85.991
+3,2026-02-01,Granja Viana,12,Eduardo Gonsalez,11,89.218
+3,2026-02-01,Granja Viana,13,Andrey Sales,11,84.795
+3,2026-02-01,Granja Viana,14,Jose Abrahao,11,86.055
+3,2026-02-01,Granja Viana,15,Danila Regina,11,89.772
+3,2026-02-01,Granja Viana,16,Marco Antonio,11,88.395
+3,2026-02-01,Granja Viana,17,Kerginaldo Klebe,11,92.289
+3,2026-02-01,Granja Viana,18,Francieudo Dantas,11,86.911
+3,2026-02-01,Granja Viana,19,Guilherme Gama,11,86.171
+3,2026-02-01,Granja Viana,20,Henrique Drummond,11,85.342
+3,2026-02-01,Granja Viana,21,Matheus Gutemberg,11,89.354
+3,2026-02-01,Granja Viana,22,Vitória Ferraro,10,93.467
+3,2026-02-01,Granja Viana,23,Andrey Eduardo,10,86.07
+3,2026-02-01,Granja Viana,24,Ygor de Paula,10,92.053
+3,2026-02-01,Granja Viana,25,Bruno Henrique,10,88.04
+3,2026-02-01,Granja Viana,26,Jose Aykon,9,90.166
+3,2026-02-01,Granja Viana,27,Diego Martins,9,94.268
+3,2026-02-01,Granja Viana,28,Aline Ferrus,9,101.215
+3,2026-02-01,Granja Viana,29,Gabriel Pinheiro,9,87.995
+3,2026-02-01,Granja Viana,30,Kaua Fagundes,8,108.161
+3,2026-02-01,Granja Viana,31,Lidia Lopes,8,113.447
+3,2026-02-01,Granja Viana,32,Ian dos Santos,8,104.431
+4,2026-02-25,Interlagos,1,Kauã Cascapera,16,60.198
+4,2026-02-25,Interlagos,2,Lucas Pinheiro,16,60.191
+4,2026-02-25,Interlagos,3,Rodrigo Chaves,16,61.359
+4,2026-02-25,Interlagos,4,Diego Del Busso Costa,16,59.826
+4,2026-02-25,Interlagos,5,Sanderson Rabelo,16,61.628
+4,2026-02-25,Interlagos,6,Marco Antonio,15,64.602
+4,2026-02-25,Interlagos,7,Cledstone Carvalho Sousa,15,65.012
+4,2026-02-25,Interlagos,8,Luis Henrique Mendonça,15,60.34
+4,2026-02-25,Interlagos,9,Lucas Timponi França,15,64.661
+4,2026-02-25,Interlagos,10,Kaique Peixoto,14,68.061
+4,2026-02-25,Interlagos,11,Guilherme Gama,14,65.454
+4,2026-02-25,Interlagos,12,Diego Gomes Pinto,14,64.899
+4,2026-02-25,Interlagos,13,Homero Cassio Luz Junior,14,63.557
+4,2026-02-25,Interlagos,14,Mateus Teobaldo,14,62.999
+4,2026-02-25,Interlagos,15,Lucas Oliveira Basso,14,67.886
+4,2026-02-25,Interlagos,16,Diego Martins,14,60.827
+4,2026-02-25,Interlagos,17,Marcos de Carvalho Sousa,13,69.632
+4,2026-02-25,Interlagos,18,Oswaldo Pinheiro,13,74.272
+4,2026-02-25,Interlagos,19,Pamella Souza Morão,12,71.306
+4,2026-02-25,Interlagos,20,Italo Coelho Francisco,12,64.957
+4,2026-02-25,Interlagos,21,Manoel Rones,11,70.401
+5,2026-03-14,Granja Viana,1,Lucas Santacroce,16,62.233
+5,2026-03-14,Granja Viana,2,Lucas Pinheiro,16,61.893
+5,2026-03-14,Granja Viana,3,Kauã Cascapera,16,61.419
+5,2026-03-14,Granja Viana,4,Rodrigo Chaves,16,63.327
+5,2026-03-14,Granja Viana,5,Guilherme Gama,16,63.191
+5,2026-03-14,Granja Viana,6,Felipe de Jesus,16,63.091
+5,2026-03-14,Granja Viana,7,Eduardo Gonsalez,16,65.341
+5,2026-03-14,Granja Viana,8,Luis Paulo,16,64.527
+5,2026-03-14,Granja Viana,9,Andrey Eduardo,15,66.048
+5,2026-03-14,Granja Viana,10,Bruno Dantas,15,65.228
+5,2026-03-14,Granja Viana,11,Renan Pereira,15,63.704
+5,2026-03-14,Granja Viana,12,Jose Wellington,15,64.883
+5,2026-03-14,Granja Viana,13,Kaique Peixoto,15,68.439
+5,2026-03-14,Granja Viana,14,João Victor,15,65.145
+5,2026-03-14,Granja Viana,15,Diogo Pinheiro,15,66.393
+5,2026-03-14,Granja Viana,16,Francieudo Dantas,14,67.549
+5,2026-03-14,Granja Viana,17,Danila Regina,14,69.195
+5,2026-03-14,Granja Viana,18,José Eduardo,14,69.705
+5,2026-03-14,Granja Viana,19,Fernando da Silva,14,67.573
+5,2026-03-14,Granja Viana,20,Melqui Brayner,13,65.823
+5,2026-03-14,Granja Viana,21,Vitória Ferraro,13,73.081
+5,2026-03-14,Granja Viana,22,Agata Novikovas,13,72.967
+5,2026-03-14,Granja Viana,23,Manoel Rones,13,74.929
+5,2026-03-14,Granja Viana,24,Espedito Matheus,13,69.145
+5,2026-03-14,Granja Viana,25,Cleber Pessoa,13,70.122
+5,2026-03-14,Granja Viana,26,Anderson Machado,13,71.136
+5,2026-03-14,Granja Viana,27,Melquiwender Santos,12,71.564
+5,2026-03-14,Granja Viana,28,Lua Clara,6,91.751
+6,2026-03-22,Granja Viana,1,Ciro Blanco,17,60.628
+6,2026-03-22,Granja Viana,2,Salvador Blanco,17,60.767
+6,2026-03-22,Granja Viana,3,Vitor Rocha,17,61.299
+6,2026-03-22,Granja Viana,4,Jefferson Carvalho,17,61.19
+6,2026-03-22,Granja Viana,5,Vinicius Camilo,17,61.366
+6,2026-03-22,Granja Viana,6,Pedro Palmeira,17,61.48
+6,2026-03-22,Granja Viana,7,Gustavo Vieira,17,61.162
+6,2026-03-22,Granja Viana,8,Yan Ramenzoni,17,61.94
+6,2026-03-22,Granja Viana,9,Lucas Pinheiro,17,61.987
+6,2026-03-22,Granja Viana,10,Adenilson Aparecido,17,61.673
+6,2026-03-22,Granja Viana,11,Domingos Rodrigues,17,61.254
+6,2026-03-22,Granja Viana,12,Marcio Barreto,16,63.133
+6,2026-03-22,Granja Viana,13,Manoel Rodrigues,16,62.742
+6,2026-03-22,Granja Viana,14,Guilherme Gama,16,63.003
+6,2026-03-22,Granja Viana,15,Gabriel Galdino,16,64.092
+6,2026-03-22,Granja Viana,16,Vinícius Mendonça,16,63.594
+6,2026-03-22,Granja Viana,17,Andre Ramalho,16,63.979
+6,2026-03-22,Granja Viana,18,Jose Abrahao,16,62.418
+6,2026-03-22,Granja Viana,19,Vitória Ferraro,15,67.925
+6,2026-03-22,Granja Viana,20,Valentin Carlos,15,67.005
+6,2026-03-22,Granja Viana,21,Christian Hunnicutt,15,68.033
+6,2026-03-22,Granja Viana,22,Gabriel Rocha,15,62.755
+6,2026-03-22,Granja Viana,23,Lorenzo Ramenzoni,14,69.972
+6,2026-03-22,Granja Viana,24,Marcos de Jesus,14,66.286
+6,2026-03-22,Granja Viana,25,Nicolas Gotado,14,70.803
+6,2026-03-22,Granja Viana,26,Guilherme Copio,14,71.409
+6,2026-03-22,Granja Viana,27,Yuji Ruiz Hayashi,14,62.949
+6,2026-03-22,Granja Viana,28,Arthur Coppio,13,66.178
+6,2026-03-22,Granja Viana,29,Henrique Coppio,13,67.465
+6,2026-03-22,Granja Viana,30,Cleverson Valdimir,13,74.025
+7,2026-04-18,Aldeia da Serra,1,Lucas Santacroce,21,50.906
+7,2026-04-18,Aldeia da Serra,2,Lucas Pinheiro,21,51.161
+7,2026-04-18,Aldeia da Serra,3,Melqui Brayner,21,50.839
+7,2026-04-18,Aldeia da Serra,4,Renan Pereira,21,51.845
+7,2026-04-18,Aldeia da Serra,5,Paulo M.,21,52.197
+7,2026-04-18,Aldeia da Serra,6,Eduardo Gonsalez,20,53.341
+7,2026-04-18,Aldeia da Serra,7,Rafael Machado,20,53.832
+7,2026-04-18,Aldeia da Serra,8,Espedito Matheus,20,54.253
+7,2026-04-18,Aldeia da Serra,9,Kauan Vieira,19,53.244
+7,2026-04-18,Aldeia da Serra,10,Francieudo Dantas,19,54.604
+7,2026-04-18,Aldeia da Serra,11,Anderson Machado,19,53.642
+7,2026-04-18,Aldeia da Serra,12,Andrey Eduardo,19,54.668
+7,2026-04-18,Aldeia da Serra,13,Vitória Ferraro,18,58.312
+7,2026-04-18,Aldeia da Serra,14,Cleber Pessoa,14,53.56
+8,2026-05-01,Granja Viana,1,Lucas Pinheiro,16,61.123
+8,2026-05-01,Granja Viana,2,Klaus Westphalen,16,60.924
+8,2026-05-01,Granja Viana,3,Lucas Santacroce,16,62.21
+8,2026-05-01,Granja Viana,4,Guilherme Gama,16,62.678
+8,2026-05-01,Granja Viana,5,Melqui Brayner,16,62.575
+8,2026-05-01,Granja Viana,6,Felipe de Jesus,16,62.852
+8,2026-05-01,Granja Viana,7,Luis Paulo,15,64.143
+8,2026-05-01,Granja Viana,8,Eduardo Gonsalez,15,65.318
+8,2026-05-01,Granja Viana,9,Guilherme Luz,15,63.219
+8,2026-05-01,Granja Viana,10,Francisco Nunes,15,63.512
+8,2026-05-01,Granja Viana,11,Gustavo de Jesus,14,65.629
+8,2026-05-01,Granja Viana,12,José Eduardo,14,68.378
+8,2026-05-01,Granja Viana,13,Danthe Navarro,14,68.25
+8,2026-05-01,Granja Viana,14,Bruno Dantas,14,66.061
+8,2026-05-01,Granja Viana,15,Adriano Serafim,14,69.451
+8,2026-05-01,Granja Viana,16,Vitória Ferraro,14,71.2
+8,2026-05-01,Granja Viana,17,Sophia Nunes,13,70.274
+8,2026-05-01,Granja Viana,18,Gabriel Teodoro,13,69.164
+8,2026-05-01,Granja Viana,19,Francisco Rodrigues,13,72.401
+8,2026-05-01,Granja Viana,20,Nicole Gomes Messa,13,72.594
+8,2026-05-01,Granja Viana,21,Julia Leme,10,87.718
+8,2026-05-01,Granja Viana,22,Antonio Pereira,10,73.579
+8,2026-05-01,Granja Viana,23,Monica Silveira,10,97.704
+9,2026-06-06,Granja Viana,1,Lucas Pinheiro,17,60.998
+9,2026-06-06,Granja Viana,2,Erick Albanez,17,61.84
+9,2026-06-06,Granja Viana,3,Lucas Santacroce,17,62.415
+9,2026-06-06,Granja Viana,4,Willian Cardoso,17,62.719
+9,2026-06-06,Granja Viana,5,Diogo Pinheiro,16,64.177
+9,2026-06-06,Granja Viana,6,Guilherme Gama,16,62.874
+9,2026-06-06,Granja Viana,7,Eduardo Gonsalez,16,64.652
+9,2026-06-06,Granja Viana,8,Francieudo Dantas,16,66.053
+9,2026-06-06,Granja Viana,9,Melqui Brayner,16,64.318
+9,2026-06-06,Granja Viana,10,Kleber Neves,15,65.611
+9,2026-06-06,Granja Viana,11,Rafael Machado,15,66.863
+9,2026-06-06,Granja Viana,12,Manoel Rones,15,70.633
+9,2026-06-06,Granja Viana,13,Kauan Rafael,14,68.229
+9,2026-06-06,Granja Viana,14,Paulo Alexandre,14,70.86
+9,2026-06-06,Granja Viana,15,Wuender Lafaiete,14,71.39
+9,2026-06-06,Granja Viana,16,Evandro Pontes,14,69.513
+9,2026-06-06,Granja Viana,17,Anderson Machado,14,71.432
+9,2026-06-06,Granja Viana,18,Isabelly Pinheiro,14,69.25
+9,2026-06-06,Granja Viana,19,Antonio Pereira,13,68.297
+9,2026-06-06,Granja Viana,20,Yago David,13,72.839
+9,2026-06-06,Granja Viana,21,Matheus Oliveira,13,69.863
+9,2026-06-06,Granja Viana,22,Daniel Vieira,12,75.498
+9,2026-06-06,Granja Viana,23,Jessica Anulino,12,82.928
+9,2026-06-06,Granja Viana,24,Evanilson Alex,11,75.012
+9,2026-06-06,Granja Viana,25,Vania Pontes,11,80.364
+9,2026-06-06,Granja Viana,26,Murilo Miguel,9,85.033
+9,2026-06-06,Granja Viana,27,Verônica Alves,8,111.752
+9,2026-06-06,Granja Viana,28,Gabriel Oliveira,3,73.714
+10,2026-07-11,Granja Viana,1,Lucas Pinheiro,17,60.784
+10,2026-07-11,Granja Viana,2,Willian Cardoso,17,61.995
+10,2026-07-11,Granja Viana,3,Guilherme Gama,17,62.097
+10,2026-07-11,Granja Viana,4,Adrian Edwin Covi,17,63.458
+10,2026-07-11,Granja Viana,5,Bruno Dantas,17,63.632
+10,2026-07-11,Granja Viana,6,Diogo Pinheiro,17,63.172
+10,2026-07-11,Granja Viana,7,Franklin Araujo,17,63.106
+10,2026-07-11,Granja Viana,8,Espedito Matheus,16,65.731
+10,2026-07-11,Granja Viana,9,Anderson Machado,16,64.669
+10,2026-07-11,Granja Viana,10,Kaique Peixoto,16,65.958
+10,2026-07-11,Granja Viana,11,Clayton Humberto,15,68.082
+10,2026-07-11,Granja Viana,12,Isabelly Pinheiro,15,68.737
+10,2026-07-11,Granja Viana,13,Vitória Ferraro,15,67.876
+10,2026-07-11,Granja Viana,14,Kerginaldo Klebe,15,67.459
+10,2026-07-11,Granja Viana,15,Andrey Eduardo,15,65.779
+10,2026-07-11,Granja Viana,16,Gabriel Pinheiro,14,65.637
+10,2026-07-11,Granja Viana,17,Ligia Benetello,14,69.992
+10,2026-07-11,Granja Viana,18,Vania Pontes,14,71.656
+10,2026-07-11,Granja Viana,19,Ana Clara,12,67.606
+10,2026-07-11,Granja Viana,20,Antonio Pereira,12,66.155
+10,2026-07-11,Granja Viana,21,Thais Lourenco,7,96.108
+11,2026-08-16,Granja Viana,1,Lucas Pinheiro,17,61.355
+11,2026-08-16,Granja Viana,2,Guilherme Gama,17,62.216
+11,2026-08-16,Granja Viana,3,Franklin Araujo,17,62.068
+11,2026-08-16,Granja Viana,4,Kleber Neves,17,63.325
+11,2026-08-16,Granja Viana,5,Diogo Pinheiro,17,63.281
+11,2026-08-16,Granja Viana,6,Lucas Santacroce,17,61.66
+11,2026-08-16,Granja Viana,7,Melqui Brayner,17,62.833
+11,2026-08-16,Granja Viana,8,Eduardo Gonsalez,17,63.031
+11,2026-08-16,Granja Viana,9,Willian Cardoso,17,61.353
+11,2026-08-16,Granja Viana,10,Vinícius Bittencourt,16,63.673
+11,2026-08-16,Granja Viana,11,Francieudo Dantas,16,65.014
+11,2026-08-16,Granja Viana,12,Antonio Pereira,16,65.162
+11,2026-08-16,Granja Viana,13,Matheus Linhares,16,65.383
+11,2026-08-16,Granja Viana,14,Pedro Paulo,16,64.72
+11,2026-08-16,Granja Viana,15,Osiris Antonio,15,73.0
+11,2026-08-16,Granja Viana,16,Vitória Ferraro,14,72.303
+11,2026-08-16,Granja Viana,17,Luiz Guilherme,13,76.529
+11,2026-08-16,Granja Viana,18,Rodrigo Oliveira,13,72.142
+11,2026-08-16,Granja Viana,19,Gustavo Pereira,13,71.764
+11,2026-08-16,Granja Viana,20,Jéssica Santos,13,72.016
+11,2026-08-16,Granja Viana,21,Jose Araujo,12,80.95
+11,2026-08-16,Granja Viana,22,Emilly Rocha,12,81.639
+11,2026-08-16,Granja Viana,23,Victor de Souza,12,70.09
+11,2026-08-16,Granja Viana,24,Beatriz Bittencourt,12,71.138
+11,2026-08-16,Granja Viana,25,Gabriel Pinheiro,12,87.848
+11,2026-08-16,Granja Viana,26,Adriana Parede,12,88.093
+11,2026-08-16,Granja Viana,27,Thais Lourenco,11,78.653
+11,2026-08-16,Granja Viana,28,Luana Beatriz,11,80.0
+11,2026-08-16,Granja Viana,29,Kamilly Concieção,8,81.58
+12,2026-09-05,Granja Viana,1,Lucas Pinheiro,12,79.628
+12,2026-09-05,Granja Viana,2,Guilherme Gama,12,81.417
+12,2026-09-05,Granja Viana,3,Franklin Araujo,12,83.6
+12,2026-09-05,Granja Viana,4,Willian Cardoso,12,80.324
+12,2026-09-05,Granja Viana,5,Kleber Neves,12,81.405
+12,2026-09-05,Granja Viana,6,Espedito Matheus,12,81.173
+12,2026-09-05,Granja Viana,7,Matheus Linhares,12,83.288
+12,2026-09-05,Granja Viana,8,Lucas Santacroce,11,80.164
+12,2026-09-05,Granja Viana,9,Jose Wellington,11,82.783
+12,2026-09-05,Granja Viana,10,Jose Abrahao,11,80.553
+12,2026-09-05,Granja Viana,11,Melqui Brayner,11,82.324
+12,2026-09-05,Granja Viana,12,Gabriel Pinheiro,11,82.839
+12,2026-09-05,Granja Viana,13,Eduardo Gonsalez,11,83.869
+12,2026-09-05,Granja Viana,14,Eliomar,10,86.901
+12,2026-09-05,Granja Viana,15,Osiris Antonio,10,89.069
+12,2026-09-05,Granja Viana,16,Mauricio Leal,10,88.053
+12,2026-09-05,Granja Viana,17,Antonio Pereira,10,86.926
+12,2026-09-05,Granja Viana,18,Bruno Dantas,10,89.625
+12,2026-09-05,Granja Viana,19,Gabrielle Pereira,9,96.601
+12,2026-09-05,Granja Viana,20,Jose Araujo,9,95.179
+12,2026-09-05,Granja Viana,21,Edimario,8,99.804
+12,2026-09-05,Granja Viana,22,Adian de Paula,8,95.361
+13,2026-10-04,Granja Viana,1,Lucas Pinheiro,17,61.108
+13,2026-10-04,Granja Viana,2,Kleber Neves,17,61.933
+13,2026-10-04,Granja Viana,3,Eduardo Gonsalez,17,62.168
+13,2026-10-04,Granja Viana,4,Diogo Pinheiro,17,62.54
+13,2026-10-04,Granja Viana,5,Guilherme Gama,17,62.365
+13,2026-10-04,Granja Viana,6,Lucas Santacroce,17,60.787
+13,2026-10-04,Granja Viana,7,Melqui Brayner,17,61.943
+13,2026-10-04,Granja Viana,8,Henrique Drummond,17,62.19
+13,2026-10-04,Granja Viana,9,Jose Abrahao,17,62.621
+13,2026-10-04,Granja Viana,10,Bruno Dantas,17,63.63
+13,2026-10-04,Granja Viana,11,Kaique Peixoto,17,64.519
+13,2026-10-04,Granja Viana,12,Espedito Matheus,16,64.386
+13,2026-10-04,Granja Viana,13,Anderson Machado,16,65.12
+13,2026-10-04,Granja Viana,14,Francieudo Dantas,16,64.924
+13,2026-10-04,Granja Viana,15,Jose Wellington,16,65.725
+13,2026-10-04,Granja Viana,16,Giovanni Chiatto,16,65.039
+13,2026-10-04,Granja Viana,17,Rodiney da Costa,16,65.643
+13,2026-10-04,Granja Viana,18,Mario Vinicius,16,66.483
+13,2026-10-04,Granja Viana,19,Adian de Paula,15,66.995
+13,2026-10-04,Granja Viana,20,Osiris Antonio,15,66.752
+13,2026-10-04,Granja Viana,21,Mauricio Leal,15,69.847
+13,2026-10-04,Granja Viana,22,Gabrielle Pereira,14,73.466
+13,2026-10-04,Granja Viana,23,Lucival Nascimento,14,71.173
+13,2026-10-04,Granja Viana,24,Alisson da Silva,14,73.034
+13,2026-10-04,Granja Viana,25,Victor Pinheiro,14,73.186
+13,2026-10-04,Granja Viana,26,Altiere Ferreira,13,75.73
+13,2026-10-04,Granja Viana,27,Laura Ramos,12,75.688
+13,2026-10-04,Granja Viana,28,Thalita de Paula,11,87.169

@@ -1,0 +1,1592 @@
+<meta name="dash-one-writer">
+<link rel="stylesheet" href="brand.css">
+<style>
+  /* Layout: header preto 56px com borda azul de 2px (padrão do guia) → KPIs → cards; página Análise = toolbar + comparador + grade.
+     Cores tiradas da logo: Preto Box #000, Azul Traçado #0062E6, Prata Capacete #C9CDD3, Branco. Ouro/prata/bronze só para pódio. */
+  .idt {
+    --idt-preto: #000000; --idt-grafite: #111318;
+    --idt-primary: #0062e6; --idt-primary-hover: #0050c0; --idt-primary-soft: #e8f0fe; --idt-on-primary: #ffffff; --idt-primary-ring: rgb(0 98 230 / .2);
+    --idt-prata: #c9cdd3;
+    --idt-ouro: #f2b705; --idt-ouro-ink: #3a2a00; --idt-p2: #c9cdd3; --idt-bronze: #c47a3c;
+    --idt-ink-50: #f6f7f9; --idt-ink-100: #eef0f3; --idt-ink-200: #e0e3e8; --idt-ink-300: #c4c9d1; --idt-ink-400: #9aa1ac; --idt-ink-500: #6b7280; --idt-ink-600: #4b515c; --idt-ink-700: #363b45; --idt-ink-900: #14171c;
+    --idt-surface: #ffffff; --idt-border: var(--idt-ink-200); --idt-text: var(--idt-ink-900); --idt-muted: var(--idt-ink-500); --idt-hover: var(--idt-ink-100); --idt-head: var(--idt-ink-50);
+    --idt-serie2: #363b45;
+    --idt-success: #1e8a4c; --idt-success-soft: #e7f5ec; --idt-error: #c62828; --idt-error-soft: #fdecec;
+    --idt-display: 'Sora', 'Inter', var(--font-anthropic-sans), ui-sans-serif, system-ui, sans-serif;
+    --idt-sans: 'Inter', var(--font-anthropic-sans), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --idt-r-control: .5rem; --idt-r-card: .875rem;
+    --idt-shadow: 0 1px 2px rgb(20 23 28 / .06), 0 1px 3px rgb(20 23 28 / .08);
+    --idt-shadow-pop: 0 10px 30px rgb(20 23 28 / .18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .idt {
+      --idt-primary: #4d8dff; --idt-primary-hover: #7aa9ff; --idt-primary-soft: rgb(77 141 255 / .16); --idt-on-primary: #000000; --idt-primary-ring: rgb(77 141 255 / .3);
+      --idt-surface: #14171c; --idt-border: #2a2f38; --idt-text: #f1f3f6; --idt-muted: #9aa1ac; --idt-hover: #1d2128; --idt-head: #0d0f13;
+      --idt-ink-700: #d5d9df; --idt-serie2: #c9cdd3; --idt-success: #4cc285; --idt-success-soft: rgb(76 194 133 / .14);
+      --idt-shadow: 0 1px 2px rgb(0 0 0 / .4); --idt-shadow-pop: 0 10px 30px rgb(0 0 0 / .55);
+    }
+  }
+  :root[data-theme="dark"] .idt {
+    --idt-primary: #4d8dff; --idt-primary-hover: #7aa9ff; --idt-primary-soft: rgb(77 141 255 / .16); --idt-on-primary: #000000; --idt-primary-ring: rgb(77 141 255 / .3);
+    --idt-surface: #14171c; --idt-border: #2a2f38; --idt-text: #f1f3f6; --idt-muted: #9aa1ac; --idt-hover: #1d2128; --idt-head: #0d0f13;
+    --idt-ink-700: #d5d9df; --idt-serie2: #c9cdd3; --idt-success: #4cc285; --idt-success-soft: rgb(76 194 133 / .14);
+    --idt-shadow: 0 1px 2px rgb(0 0 0 / .4); --idt-shadow-pop: 0 10px 30px rgb(0 0 0 / .55);
+  }
+
+  .idt { display: grid; gap: 1.5rem; font-family: var(--idt-sans); color: var(--idt-text); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .idt h1, .idt h2, .idt h3 { font-family: var(--idt-display); margin: 0; font-weight: 600; text-wrap: balance; }
+  .idt :focus-visible { outline: 2px solid var(--idt-primary); outline-offset: 2px; }
+
+  /* Cabeçalho claro e fixo no topo: logo, abas e temporada */
+  .idt-bar { position: sticky; top: 8px; z-index: 10; background: var(--idt-surface); border: 1px solid var(--idt-border); border-radius: var(--idt-r-card); box-shadow: var(--idt-shadow); padding: .375rem 1rem .375rem .5rem; display: flex; align-items: center; gap: .5rem 1.5rem; flex-wrap: wrap; }
+  .idt-brand { display: flex; align-items: center; gap: .625rem; min-width: 0; }
+  .idt-logo-img { width: 60px; height: 50px; flex: none; display: block; }
+  .idt-word { display: grid; line-height: 1.15; }
+  .idt-word strong { font-family: var(--idt-display); font-weight: 700; font-size: 16px; color: var(--idt-text); }
+  .idt-word span { font-size: 12px; color: var(--idt-muted); }
+  .idt-nav { display: flex; gap: 2px; flex-wrap: wrap; }
+  .idt-nav button { appearance: none; border: 0; background: transparent; color: var(--idt-ink-600); font: 500 14px var(--idt-sans); height: 36px; padding: 0 12px; border-radius: var(--idt-r-control); cursor: pointer; transition: background .15s, color .15s; }
+  .idt-nav button:hover { color: var(--idt-text); background: var(--idt-hover); }
+  .idt-nav button[aria-selected="true"] { color: var(--idt-primary); background: var(--idt-primary-soft); font-weight: 600; }
+  .idt-season { margin-left: auto; color: var(--idt-muted); font-size: 12px; white-space: nowrap; }
+  .idt-season b { color: var(--idt-text); font-weight: 600; }
+
+  .idt-page { display: grid; gap: 1.25rem; }
+  .idt-eyebrow { display: none; }
+  .idt-sechead { display: grid; gap: 4px; padding-top: .25rem; }
+  .idt-sechead h2 { font-size: 22px; }
+  .idt-lead { margin: 0; color: var(--idt-muted); max-width: 62ch; }
+
+  /* KPIs (padrão do guia: label 12px muted, valor 18px 600 tabular, hint 12px) */
+  .idt-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 12px; }
+  .idt-kpi { background: var(--idt-surface); border: 1px solid var(--idt-border); border-radius: var(--idt-r-card); box-shadow: var(--idt-shadow); padding: 12px 16px; display: grid; gap: 2px; align-content: start; min-width: 0; }
+  .idt-kpi .l { font-size: 12px; font-weight: 500; color: var(--idt-muted); }
+  .idt-kpi .v { font-family: var(--idt-display); font-size: 22px; font-weight: 600; line-height: 1.25; margin-top: 2px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .idt-kpi .v.name { font-size: 18px; }
+  .idt-kpi .h { font-size: 12px; color: var(--idt-muted); }
+  .idt-kpi .h b { color: var(--idt-text); font-weight: 600; }
+  .idt-kpi.accent { background: var(--idt-primary-soft); border-color: transparent; box-shadow: none; }
+  .idt-kpi.accent .v { color: var(--idt-primary); }
+  .idt-kpi.accent .h b { color: var(--idt-primary); }
+
+  /* Cards */
+  .idt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 12px; }
+  .idt-card { background: var(--idt-surface); border: 1px solid var(--idt-border); border-radius: var(--idt-r-card); box-shadow: var(--idt-shadow); padding: 20px 24px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+  .idt-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+  .idt-card-head > div { display: grid; gap: 2px; min-width: 0; }
+  .idt-card-head > .idt-group { display: inline-flex; }
+  .idt-card h3 { font-size: 16px; }
+  .idt-note { margin: 0; color: var(--idt-muted); font-size: 12px; }
+
+  /* Botões — exatamente o padrão do guia: md 40px / sm 32px, raio .5rem, 500 14px */
+  .idt-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: var(--idt-r-control); font: 500 14px var(--idt-sans); height: 40px; padding: 0 16px; border: 0; cursor: pointer; transition: background .15s, color .15s, border-color .15s; white-space: nowrap; }
+  .idt-btn.sm { height: 32px; padding: 0 12px; }
+  .idt-btn.primary { background: var(--idt-primary); color: var(--idt-on-primary); }
+  .idt-btn.primary:hover { background: var(--idt-primary-hover); }
+  .idt-btn.secondary { background: var(--idt-surface); color: var(--idt-text); border: 1px solid var(--idt-border); }
+  .idt-btn.secondary:hover { background: var(--idt-hover); }
+  .idt-btn.ghost { background: transparent; color: var(--idt-text); }
+  .idt-btn.ghost:hover { background: var(--idt-hover); }
+  .idt-btn.secondary[aria-pressed="true"] { background: var(--idt-primary-soft); color: var(--idt-primary); border-color: var(--idt-primary); font-weight: 600; }
+  .idt-btn:disabled { opacity: .6; cursor: not-allowed; }
+  .idt-group { display: inline-flex; gap: 8px; flex-wrap: wrap; }
+
+  /* Campos */
+  .idt-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .idt-field label, .idt-field .lbl { font-size: 14px; font-weight: 500; color: var(--idt-ink-700); }
+  .idt-input { width: 100%; min-width: 0; height: 40px; border-radius: var(--idt-r-control); border: 1px solid var(--idt-border); background: var(--idt-surface); color: var(--idt-text); padding: 0 12px; font: 14px var(--idt-sans); }
+  .idt-input::placeholder { color: var(--idt-ink-400); }
+  .idt-input:focus { outline: none; border-color: var(--idt-primary); box-shadow: 0 0 0 3px var(--idt-primary-ring); }
+  .idt select.dash-select.idt-sel { height: 40px; border-radius: var(--idt-r-control); border: 1px solid var(--idt-border); background-color: var(--idt-surface); color: var(--idt-text); font: 14px var(--idt-sans); width: 100%; min-width: 0; }
+  .idt select.dash-select.idt-sel:focus { border-color: var(--idt-primary); box-shadow: 0 0 0 3px var(--idt-primary-ring); outline: none; }
+  .idt-toolbar { display: flex; gap: 12px 16px; align-items: flex-end; flex-wrap: wrap; }
+  .idt-toolbar .grow { flex: 1 1 14rem; max-width: 22rem; }
+
+  /* Badges (pílula 2px 8px, 12px 500, cor forte + fundo suave) */
+  .idt-badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 2px 8px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+  .b-p1 { background: var(--idt-ouro); color: var(--idt-ouro-ink); font-weight: 600; }
+  .b-p2 { background: var(--idt-p2); color: #1c1f24; font-weight: 600; }
+  .b-p3 { background: var(--idt-bronze); color: #24120a; font-weight: 600; }
+  .b-neutral { background: var(--idt-hover); color: var(--idt-ink-700); }
+  .b-primary { background: var(--idt-primary-soft); color: var(--idt-primary); }
+  .b-success { background: var(--idt-success-soft); color: var(--idt-success); }
+  .b-error { background: var(--idt-error-soft); color: var(--idt-error); }
+
+  /* Gráficos */
+  .idt-chart { position: relative; min-height: 140px; }
+  .idt-chart svg { display: block; overflow: visible; }
+  .idt-chart text { font-family: var(--idt-sans); font-size: 12px; fill: var(--idt-muted); }
+  .idt-chart text.strong { fill: var(--idt-text); font-weight: 500; }
+  .idt-legend { display: flex; gap: 8px 16px; flex-wrap: wrap; font-size: 12px; color: var(--idt-muted); }
+  .idt-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .idt-legend i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
+  .idt-legend i.line { height: 3px; border-radius: 2px; width: 16px; }
+  .sw-primary { background: var(--idt-primary); }
+  .sw-primary-soft { background: var(--idt-primary); opacity: .35; }
+  .sw-ouro { background: var(--idt-ouro); }
+  .sw-serie2 { background: var(--idt-serie2); }
+  .idt-tip { position: absolute; background: var(--idt-surface); border: 1px solid var(--idt-border); border-radius: var(--idt-r-control); box-shadow: var(--idt-shadow-pop); padding: 6px 10px; font-size: 12px; pointer-events: none; white-space: nowrap; z-index: 3; color: var(--idt-text); }
+  .idt-tip .t { color: var(--idt-muted); }
+
+  /* Comparador */
+  .idt-h2h { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: center; background: var(--idt-head); border: 1px solid var(--idt-border); border-radius: var(--idt-r-card); padding: 16px; }
+  .idt-h2h .side { display: grid; gap: 2px; min-width: 0; }
+  .idt-h2h .side.b { text-align: right; }
+  .idt-h2h .who { font-weight: 600; overflow-wrap: anywhere; }
+  .idt-h2h .big { font-family: var(--idt-display); font-size: 32px; font-weight: 700; line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .idt-h2h .a .big { color: var(--idt-primary); }
+  .idt-h2h .b .big { color: var(--idt-serie2); }
+  .idt-h2h .vs { font-family: var(--idt-display); font-weight: 700; color: var(--idt-muted); font-size: 13px; letter-spacing: .1em; text-align: center; display: grid; gap: 2px; }
+  .idt-h2h .vs span { font-family: var(--idt-sans); font-weight: 500; letter-spacing: 0; font-size: 12px; }
+  .idt-cmp { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .idt-cmp td { padding: 8px 4px; border-bottom: 1px solid var(--idt-border); }
+  .idt-cmp tr:last-child td { border-bottom: 0; }
+  .idt-cmp td:first-child { text-align: right; width: 34%; }
+  .idt-cmp td:nth-child(2) { text-align: center; color: var(--idt-muted); font-size: 12px; }
+  .idt-cmp td:last-child { text-align: left; width: 34%; }
+  .idt-cmp .win { font-weight: 700; }
+  .idt-cmp td:first-child.win { color: var(--idt-primary); }
+  .idt-cmp td:last-child.win { color: var(--idt-serie2); }
+
+  /* Grade (padrão "planilha" do guia: cabeçalho e 1ª coluna fixos, números à direita) */
+  .idt-tablebox { overflow: auto; max-height: 32rem; border: 1px solid var(--idt-border); border-radius: var(--idt-r-card); background: var(--idt-surface); }
+  .idt-table { width: 100%; border-collapse: separate; border-spacing: 0; font-variant-numeric: tabular-nums; }
+  .idt-table th, .idt-table td { padding: 8px 12px; text-align: right; border-bottom: 1px solid var(--idt-border); white-space: nowrap; }
+  .idt-table tbody tr:last-child td { border-bottom: 0; }
+  .idt-table th { position: sticky; top: 0; z-index: 1; background: var(--idt-head); font-size: 12px; font-weight: 600; color: var(--idt-muted); }
+  .idt-table th:first-child, .idt-table td:first-child { position: sticky; left: 0; text-align: left; border-right: 1px solid var(--idt-border); }
+  .idt-table th:first-child { z-index: 2; }
+  .idt-table td:first-child { background: var(--idt-surface); font-weight: 500; }
+  .idt-table .l { text-align: left; }
+  .idt-table tbody tr:hover td { background: var(--idt-head); }
+  .idt-table tr.is-sel td { background: var(--idt-primary-soft); }
+  .idt-table th button { all: unset; cursor: pointer; }
+  .idt-table th button:focus-visible { outline: 2px solid var(--idt-primary); outline-offset: 2px; border-radius: 2px; }
+  .idt-table th[aria-sort] { color: var(--idt-primary); }
+  .idt-table th[aria-sort="descending"] button::after { content: " ↓"; }
+  .idt-table th[aria-sort="ascending"] button::after { content: " ↑"; }
+  .idt-rank { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; font-weight: 600; font-size: 12px; background: var(--idt-hover); color: var(--idt-ink-700); margin-right: 8px; vertical-align: middle; }
+  .idt-rank.r1 { background: var(--idt-ouro); color: var(--idt-ouro-ink); }
+  .idt-rank.r2 { background: var(--idt-p2); color: #1c1f24; }
+  .idt-rank.r3 { background: var(--idt-bronze); color: #24120a; }
+  .idt-cellbar { display: inline-flex; align-items: center; gap: 8px; justify-content: flex-end; }
+  .idt-cellbar .track { width: 56px; height: 6px; border-radius: 3px; background: var(--idt-hover); overflow: hidden; }
+  .idt-cellbar .fill { height: 100%; background: var(--idt-primary); border-radius: 3px; }
+  .idt-count { font-size: 12px; color: var(--idt-muted); padding-bottom: 10px; }
+  .idt-fast { color: var(--idt-primary); font-weight: 600; }
+
+
+  /* Volta a volta */
+  .idt { --idt-c1: #0062e6; --idt-c2: #4b515c; --idt-c3: #e4572e; --idt-c4: #0f9d76; }
+  :root[data-theme="dark"] .idt { --idt-c1: #4d8dff; --idt-c2: #c9cdd3; --idt-c3: #ff7a52; --idt-c4: #34c99a; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .idt { --idt-c1: #4d8dff; --idt-c2: #c9cdd3; --idt-c3: #ff7a52; --idt-c4: #34c99a; } }
+  .idt-chips { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .idt-chips .idt-sel { width: auto; min-width: 12rem; max-width: 100%; }
+  .idt-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+  .idt-btn .x { color: var(--idt-muted); font-weight: 600; margin-left: 2px; }
+  .idt-btn:hover .x { color: var(--idt-error); }
+  .idt-table td.best { color: var(--idt-primary); font-weight: 700; }
+  .idt-table td.bad { color: var(--idt-ink-400); text-decoration: line-through; }
+  .idt-table td.slow { color: var(--idt-muted); }
+  .idt-table .delta { color: var(--idt-muted); font-size: 12px; margin-left: 6px; }
+  .idt-table th .idt-dot { margin-right: 6px; vertical-align: -1px; }
+  .idt-table td .idt-dot { margin-right: 8px; vertical-align: 0; }
+  .idt-table tr.ideal td { background: var(--idt-head); font-weight: 600; }
+  .idt-chart .hover-rule { stroke: var(--idt-ink-400); stroke-dasharray: 3 3; }
+  .idt-tip .row { display: flex; align-items: center; gap: 6px; }
+  .idt-tip .row b { margin-left: auto; padding-left: 12px; font-variant-numeric: tabular-nums; }
+
+
+  /* Raio-X */
+  .idt-diag { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 12px; }
+  .idt-diag .item { display: grid; gap: 8px; align-content: start; padding: 14px 16px; border: 1px solid var(--idt-border); border-radius: var(--idt-r-card); background: var(--idt-head); }
+  .idt-diag .item .idt-badge { justify-self: start; }
+  .idt-diag p { margin: 0; }
+  .idt .idt-diag b { font-weight: 700; color: var(--idt-text); font-variant-numeric: tabular-nums; }
+
+  /* "i" de ajuda de cada página */
+  .idt-titulo { display: flex; align-items: center; gap: 10px; }
+  .idt-info { appearance: none; flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--idt-primary); background: var(--idt-surface); color: var(--idt-primary); font: italic 700 15px/1 Georgia, 'Times New Roman', serif; cursor: pointer; display: inline-grid; place-items: center; padding: 0; transition: background .15s, color .15s; }
+  .idt-info:hover { background: var(--idt-primary); color: var(--idt-on-primary); }
+  .cor-linha .idt-info { margin-left: auto; }
+  .idt-ajuda { border: 0; padding: 20px 22px 22px; border-radius: var(--idt-r-card); box-shadow: var(--idt-shadow-pop); width: min(34rem, calc(100vw - 32px)); max-height: min(80vh, 44rem); overflow: auto; color: var(--idt-text); background: var(--idt-surface); font-family: var(--idt-sans); font-size: 14px; line-height: 1.5; }
+  .idt-ajuda::backdrop { background: rgb(20 23 28 / .45); }
+  .idt-ajuda-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .idt-ajuda-head h2 { font-family: var(--idt-display); font-size: 18px; margin: 0; flex: 1; }
+  .idt-ajuda-x { width: 36px; height: 36px; padding: 0; font-size: 20px; color: var(--idt-muted); }
+  .idt-ajuda dl { margin: 0 0 18px; display: grid; gap: 4px; }
+  .idt-ajuda dt { font-weight: 600; margin-top: 10px; }
+  .idt-ajuda dd { margin: 0; color: var(--idt-ink-600); }
+  .idt-ajuda .idt-btn.primary { width: 100%; }
+  @media (max-width: 720px) {
+    .idt-ajuda { margin: auto 0 0; width: 100vw; max-width: 100vw; max-height: 85vh; border-radius: var(--idt-r-card) var(--idt-r-card) 0 0; padding-bottom: max(22px, env(safe-area-inset-bottom)); }
+  }
+
+  /* rodapé e login do administrador */
+  .idt-rodape { display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; align-items: center; padding: 16px 4px 0; border-top: 1px solid var(--idt-border); font-size: 12px; color: var(--idt-muted); }
+  .idt-rodape-link { all: unset; cursor: pointer; color: var(--idt-ink-600); text-decoration: underline; text-underline-offset: 2px; }
+  .idt-rodape-link:hover { color: var(--idt-primary); }
+  .idt-rodape-link:focus-visible { outline: 2px solid var(--idt-primary); outline-offset: 2px; }
+  .idt-login .idt-note { margin: 0 0 14px; }
+  .idt-login-form { display: grid; gap: 14px; }
+  .idt-login-form .idt-btn.ghost { justify-self: center; }
+  .idt-login-msg { margin: 0; font-size: 13px; padding: 8px 12px; border-radius: var(--idt-r-control); background: var(--idt-error-soft); color: var(--idt-error); }
+  .idt-login-msg.ok { background: var(--idt-success-soft); color: var(--idt-success); }
+
+  [data-dash-source-state=empty] { color: transparent; }
+  [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+  /* nada pode empurrar a página para os lados: tabelas largas rolam dentro do próprio cartão */
+  .idt > *, .idt-page > *, .idt-grid > *, .idt-card > * { min-width: 0; }
+  @media (max-width: 720px) {
+    /* celular: cabeçalho compacto, abas numa linha que rola de lado */
+    .idt-bar { top: 0; padding: .375rem .5rem; gap: .25rem .75rem; border-radius: 0 0 var(--idt-r-card) var(--idt-r-card); }
+    .idt-logo-img { width: 44px; height: 38px; }
+    .idt-word span, .idt-season { display: none; }
+    .idt-nav { order: 3; flex: 1 0 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -.25rem; }
+    .idt-nav::-webkit-scrollbar { display: none; }
+    .idt-nav button { flex: none; height: 34px; padding: 0 10px; }
+    .idt-kpi .v { font-size: 20px; }
+    .idt-kpi .v.name { font-size: 16px; }
+    .idt-card { padding: 16px 14px; }
+    .idt-table th, .idt-table td { padding: 8px 6px; font-size: 13px; }
+    .idt-table th { font-size: 11px; }
+    .idt-rank { margin-right: 6px; }
+    #card-classificacao .idt-table th:nth-child(3), #card-classificacao .idt-table td:nth-child(3) { display: none; }
+  }
+  @media (max-width: 560px) {
+    .idt-season { margin-left: 0; }
+    .idt-h2h .big { font-size: 26px; }
+    .idt-card { padding: 16px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .idt-page:not([hidden]) { animation: idt-in var(--cds-dur-slow) var(--cds-ease-out); }
+    @keyframes idt-in { from { opacity: .4; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+
+<div class="idt">
+  <header class="idt-bar" id="topo">
+    <div class="idt-brand">
+      <div class="idt-logo-img" role="img" aria-label="Inimigos do Traçado"></div>
+      <div class="idt-word"><strong>Inimigos do Traçado</strong><span>Painel da temporada</span></div>
+    </div>
+    <nav class="idt-nav" role="tablist" aria-label="Páginas">
+      <button type="button" role="tab" id="tab-geral" data-tab="geral" aria-selected="true">Visão geral</button>
+      <button type="button" role="tab" id="tab-corridas" data-tab="corridas" aria-selected="false">Corridas</button>
+      <button type="button" role="tab" id="tab-analise" data-tab="analise" aria-selected="false">Análise</button>
+      <button type="button" role="tab" id="tab-voltas" data-tab="voltas" aria-selected="false">Comparar voltas</button>
+      <button type="button" role="tab" id="tab-raiox" data-tab="raiox" aria-selected="false">Raio-X do piloto</button>
+      <button type="button" role="tab" id="tab-admin" data-tab="admin" aria-selected="false" hidden>Administração</button>
+    </nav>
+    <div class="idt-season">Temporada <b data-draw="s-ini" data-source="resumo" data-field="inicio" data-row="0">—</b> a <b data-draw="s-fim" data-source="resumo" data-field="fim" data-row="0">—</b></div>
+  </header>
+
+  <!-- PÁGINA 1 -->
+  <section class="idt-page" id="geral" data-page="geral">
+    <div class="idt-kpis">
+      <div class="idt-kpi accent" id="kpi-lider">
+        <span class="l">Líder do campeonato</span>
+        <span class="v name" data-draw="k-lider" data-source="resumo" data-field="lider" data-row="0">—</span>
+        <span class="h"><b data-draw="k-lider-pts" data-source="resumo" data-field="lider_pontos" data-row="0">—</b> pts · <span data-draw="k-lider-gap" data-source="resumo" data-field="vantagem" data-row="0">—</span> de vantagem</span>
+      </div>
+      <div class="idt-kpi" id="kpi-provas">
+        <span class="l">Provas</span>
+        <span class="v" data-draw="k-provas" data-source="resumo" data-field="corridas" data-row="0">—</span>
+        <span class="h"><b data-draw="k-kart" data-source="resumo" data-field="kartodromos" data-row="0">—</b> kartódromos</span>
+      </div>
+      <div class="idt-kpi" id="kpi-pilotos">
+        <span class="l">Pilotos</span>
+        <span class="v" data-draw="k-pilotos" data-source="resumo" data-field="pilotos" data-row="0">—</span>
+        <span class="h"><b data-draw="k-fieis" data-source="resumo" data-field="fieis" data-row="0">—</b> com 5+ provas</span>
+      </div>
+      <div class="idt-kpi" id="kpi-vitorias">
+        <span class="l">Mais vitórias</span>
+        <span class="v name" data-draw="k-mv" data-source="resumo" data-field="mais_vitorias" data-row="0">—</span>
+        <span class="h"><b data-draw="k-mv-n" data-source="resumo" data-field="mais_vitorias_n" data-row="0">—</b> vitórias</span>
+      </div>
+    </div>
+
+    <div class="idt-card" id="card-classificacao">
+      <div class="idt-card-head">
+        <div>
+          <h3>Campeonato</h3>
+          <p class="idt-note">Pontos do 1º ao 10º: 25 · 18 · 15 · 12 · 10 · 8 · 6 · 4 · 2 · 1</p>
+        </div>
+        <div class="idt-group" role="group" aria-label="Quantos pilotos mostrar">
+          <button type="button" class="idt-btn secondary sm" data-top="10" aria-pressed="true">Top 10</button>
+          <button type="button" class="idt-btn secondary sm" data-top="20" aria-pressed="false">Top 20</button>
+        </div>
+      </div>
+      <div class="idt-tablebox">
+        <table class="idt-table" data-source="pilotos" data-row-key="piloto">
+          <thead><tr>
+            <th data-field="piloto">Piloto</th>
+            <th data-field="pontos">Pontos</th>
+            <th data-field="corridas">Provas</th>
+            <th data-field="vitorias">Vitórias</th>
+            <th data-field="podios">Pódios</th>
+          </tr></thead>
+          <tbody data-draw="tb-pontos"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="idt-grid">
+      <div class="idt-card" id="card-participacao">
+        <div class="idt-card-head"><div>
+          <h3>Quem mais corre</h3>
+          <p class="idt-note">Os 15 pilotos com mais provas</p>
+        </div></div>
+        <div class="idt-chart" data-draw="ch-corridas" data-source="pilotos"></div>
+      </div>
+      <div class="idt-card" id="card-podios">
+        <div class="idt-card-head"><div>
+          <h3>Vitórias e pódios</h3>
+          <p class="idt-note">Os 15 com mais vitórias e pódios</p>
+        </div></div>
+        <div class="idt-legend"><span><i class="sw-ouro"></i>Vitórias</span><span><i class="sw-primary"></i>2º e 3º lugar</span></div>
+        <div class="idt-chart" data-draw="ch-podios" data-source="pilotos"></div>
+      </div>
+    </div>
+
+    <div class="idt-card" id="card-provas">
+      <div class="idt-card-head"><div>
+        <h3>Provas da temporada</h3>
+        <p class="idt-note">Vencedor e volta mais rápida de cada prova</p>
+      </div></div>
+      <div class="idt-tablebox">
+        <table class="idt-table" data-source="corridas" data-row-key="corrida">
+          <thead><tr>
+            <th data-field="corrida">Prova</th>
+            <th data-field="data" class="l">Data</th>
+            <th data-field="kartodromo" class="l">Kartódromo</th>
+            <th data-field="participantes">Grid</th>
+            <th data-field="vencedor" class="l">Vencedor</th>
+            <th data-field="volta_rapida_piloto" class="l">Volta mais rápida</th>
+            <th data-field="volta_rapida_s">Tempo</th>
+          </tr></thead>
+          <tbody data-draw="tb-provas"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- PÁGINA 2 -->
+  <section class="idt-page" id="analise" data-page="analise" hidden>
+    <div class="idt-sechead">
+      <h2>Compare dois pilotos</h2>
+      <p class="idt-lead">Confronto direto nas provas em que correram juntos.</p>
+    </div>
+
+    <div class="idt-card" id="card-comparador">
+      <div class="idt-toolbar">
+        <div class="idt-field grow"><label for="idt-a">Piloto A</label><select class="dash-select idt-sel" id="idt-a" data-draw="pick-a" data-source="pilotos"></select></div>
+        <button type="button" class="idt-btn secondary" id="idt-swap" aria-label="Inverter pilotos">⇄ Inverter</button>
+        <div class="idt-field grow"><label for="idt-b">Piloto B</label><select class="dash-select idt-sel" id="idt-b" data-draw="pick-b" data-source="pilotos"></select></div>
+      </div>
+      <div class="idt-h2h" data-draw="h2h" data-source="resultados pilotos">—</div>
+      <table class="idt-cmp" data-draw="cmp" data-source="pilotos"></table>
+      <div class="idt-legend" data-draw="cmp-legend" data-source="pilotos"></div>
+      <div class="idt-chart" data-draw="ch-evolucao" data-source="resultados pilotos"></div>
+      <p class="idt-note">Posição de chegada em cada prova (P1 no topo). A barra cinza é o tamanho do grid.</p>
+    </div>
+
+    <div class="idt-card" id="card-todos">
+      <div class="idt-card-head">
+        <div>
+          <h3>Todos os pilotos</h3>
+          <p class="idt-note">Clique num piloto para comparar; clique no título da coluna para ordenar.</p>
+        </div>
+      </div>
+      <div class="idt-toolbar">
+        <div class="idt-field"><span class="lbl">Frequência</span>
+          <div class="idt-group" role="group" aria-label="Filtrar por frequência">
+            <button type="button" class="idt-btn secondary sm" data-min="1" aria-pressed="true">Todos</button>
+            <button type="button" class="idt-btn secondary sm" data-min="3" aria-pressed="false">3+ provas</button>
+            <button type="button" class="idt-btn secondary sm" data-min="5" aria-pressed="false">Núcleo 5+</button>
+          </div>
+        </div>
+        <div class="idt-field grow"><label for="idt-search">Buscar</label><input class="idt-input" id="idt-search" type="search" placeholder="Nome do piloto"></div>
+        <span class="idt-count" data-draw="count" data-source="pilotos">—</span>
+      </div>
+      <div class="idt-tablebox">
+        <table class="idt-table idt-sortable" data-source="pilotos" data-row-key="piloto">
+          <thead><tr>
+            <th data-field="piloto" data-sort="piloto"><button type="button">Piloto</button></th>
+            <th data-field="corridas" data-sort="corridas" aria-sort="descending"><button type="button">Provas</button></th>
+            <th data-field="pontos" data-sort="pontos"><button type="button">Pontos</button></th>
+            <th data-field="vitorias" data-sort="vitorias"><button type="button">Vitórias</button></th>
+            <th data-field="podios" data-sort="podios"><button type="button">Pódios</button></th>
+            <th data-field="melhor_pos" data-sort="melhor_pos"><button type="button">Melhor</button></th>
+            <th data-field="pos_media" data-sort="pos_media"><button type="button">Pos. média</button></th>
+          </tr></thead>
+          <tbody data-draw="tb-todos"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- PÁGINA 3 -->
+  <section class="idt-page" id="voltas" data-page="voltas" hidden>
+    <div class="idt-sechead">
+      <h2>Comparar voltas</h2>
+      <p class="idt-lead">Compare o ritmo de até 4 pilotos numa prova, ou um piloto em provas diferentes.</p>
+    </div>
+
+    <div class="idt-card" id="card-voltas-filtros">
+      <div class="idt-toolbar">
+        <div class="idt-field"><span class="lbl">Comparar</span>
+          <div class="idt-group" role="group" aria-label="Modo de comparação">
+            <button type="button" class="idt-btn secondary sm" data-vmode="pilotos" aria-pressed="true">Pilotos numa prova</button>
+            <button type="button" class="idt-btn secondary sm" data-vmode="provas" aria-pressed="false">Provas de um piloto</button>
+          </div>
+        </div>
+        <div class="idt-field grow" data-vctl="pilotos"><label for="idt-vrace">Prova</label><select class="dash-select idt-sel" id="idt-vrace" data-draw="v-race" data-source="voltas resultados corridas"></select></div>
+        <div class="idt-field grow" data-vctl="provas" hidden><label for="idt-vdriver">Piloto</label><input class="idt-input" id="idt-vdriver" type="search" list="idt-vdriver-list" placeholder="Digite o nome do piloto" autocomplete="off"><datalist id="idt-vdriver-list" data-draw="v-driver" data-source="voltas resultados corridas"></datalist></div>
+      </div>
+      <div class="idt-field">
+        <span class="lbl" data-vctl="pilotos">Pilotos (até 4)</span>
+        <span class="lbl" data-vctl="provas" hidden>Provas (até 4)</span>
+        <div class="idt-chips" data-draw="v-chips" data-source="voltas resultados corridas"></div>
+      </div>
+      <p class="idt-note" data-vctl="provas" hidden>Dica: compare provas da mesma pista. As provas 3 e 12 tiveram piso lento.</p>
+    </div>
+
+    <div class="idt-card" id="card-ritmo">
+      <div class="idt-card-head"><div>
+        <h3>Tempo de cada volta</h3>
+        <p class="idt-note">Quanto mais baixo, mais rápido. O ponto maior é a melhor volta.</p>
+      </div></div>
+      <div class="idt-chart" data-draw="v-chart" data-source="voltas resultados corridas"></div>
+    </div>
+
+    <div class="idt-card" id="card-resumo-voltas">
+      <div class="idt-card-head"><div>
+        <h3>Resumo</h3>
+        <p class="idt-note">Ritmo médio: média das voltas limpas (sem a 1ª e sem voltas atrapalhadas). Consistência: quanto menor, mais constante.</p>
+      </div></div>
+      <div class="idt-tablebox">
+        <table class="idt-table" data-source="ritmo" data-row-key="corrida,piloto">
+          <thead><tr>
+            <th data-field="piloto">Piloto</th>
+            <th data-field="corrida">Prova</th>
+            <th data-field="melhor">Melhor volta</th>
+            <th data-field="media">Ritmo médio</th>
+            <th data-field="desvio">Consistência</th>
+            <th data-field="ideal">Volta ideal</th>
+            <th data-field="voltas">Voltas</th>
+          </tr></thead>
+          <tbody data-draw="v-resumo"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="idt-card" id="card-setores">
+      <div class="idt-card-head"><div>
+        <h3>Melhor tempo em cada setor</h3>
+        <p class="idt-note">Em azul o mais rápido de cada setor; ao lado, quanto cada um perde para ele.</p>
+      </div></div>
+      <p class="idt-note" data-vnosec hidden></p>
+      <div class="idt-tablebox" data-draw="v-setores" data-source="ritmo voltas resultados corridas"></div>
+    </div>
+
+    <div class="idt-card" id="card-tabela-voltas">
+      <div class="idt-card-head"><div>
+        <h3>Todas as voltas</h3>
+        <p class="idt-note">Melhor volta em azul. Voltas riscadas são falhas de cronometragem e não contam.</p>
+      </div></div>
+      <div class="idt-tablebox" data-draw="v-tabela" data-source="voltas resultados corridas"></div>
+    </div>
+  </section>
+
+  <!-- PÁGINA 4 -->
+  <section class="idt-page" id="raiox" data-page="raiox" hidden>
+    <div class="idt-sechead">
+      <h2>Raio-X do piloto</h2>
+      <p class="idt-lead">Digite seu nome e escolha a pista: veja seu ponto forte e onde ganhar tempo.</p>
+    </div>
+
+    <div class="idt-card" id="card-raiox-filtros">
+      <div class="idt-toolbar">
+        <div class="idt-field grow"><label for="idt-xpiloto">Piloto</label><input class="idt-input" id="idt-xpiloto" type="search" list="idt-xpiloto-list" placeholder="Digite seu nome" autocomplete="off"><datalist id="idt-xpiloto-list" data-draw="x-pilotos" data-source="pista_piloto"></datalist></div>
+        <div class="idt-field grow"><label for="idt-xpista">Pista</label><select class="dash-select idt-sel" id="idt-xpista" data-draw="x-pista" data-source="pista_piloto"></select></div>
+        <div class="idt-field"><span class="lbl">Comparar com</span>
+          <div class="idt-group" role="group" aria-label="Referência">
+            <button type="button" class="idt-btn secondary sm" data-xref="todos" aria-pressed="true">Recorde da pista</button>
+            <button type="button" class="idt-btn secondary sm" data-xref="nucleo" aria-pressed="false">Melhor do núcleo</button>
+          </div>
+        </div>
+      </div>
+      <p class="idt-note">Recorde da pista: melhor tempo de qualquer piloto. Melhor do núcleo: só quem tem 5 ou mais provas.</p>
+    </div>
+
+    <div class="idt-kpis">
+      <div class="idt-kpi accent" id="kpi-ideal">
+        <span class="l">Sua volta ideal</span>
+        <span class="v" data-draw="x-ideal" data-source="pista_piloto">—</span>
+        <span class="h"><b data-draw="x-ideal-ganho" data-source="pista_piloto">—</b> abaixo da sua melhor volta</span>
+      </div>
+      <div class="idt-kpi" id="kpi-xmelhor">
+        <span class="l">Sua melhor volta</span>
+        <span class="v" data-draw="x-melhor" data-source="pista_piloto">—</span>
+        <span class="h">na <b data-draw="x-melhor-prova" data-source="pista_piloto corridas">—</b></span>
+      </div>
+      <div class="idt-kpi" id="kpi-xmedia">
+        <span class="l">Ritmo médio</span>
+        <span class="v" data-draw="x-media" data-source="pista_piloto">—</span>
+        <span class="h">variação <b data-draw="x-desvio" data-source="pista_piloto">—</b> · <b data-draw="x-provas" data-source="pista_piloto">—</b> provas</span>
+      </div>
+      <div class="idt-kpi" id="kpi-xgap">
+        <span class="l">Distância para a referência</span>
+        <span class="v" data-draw="x-gap" data-source="pista_piloto referencia_pista">—</span>
+        <span class="h"><b data-draw="x-ref-quem" data-source="referencia_pista">—</b> fez <b data-draw="x-ref-tempo" data-source="referencia_pista">—</b></span>
+      </div>
+    </div>
+
+    <div class="idt-card" id="card-diagnostico">
+      <div class="idt-card-head"><div>
+        <h3>Seu resumo</h3>
+      </div></div>
+      <div class="idt-diag" data-xsec>
+        <div class="item"><span class="idt-badge b-success">Ponto forte</span><p>Seu melhor trecho é o <b data-draw="x-forte" data-source="pista_piloto referencia_pista">—</b>, onde você fica a <b data-draw="x-forte-gap" data-source="pista_piloto referencia_pista">—</b> da referência.</p></div>
+        <div class="item"><span class="idt-badge b-error">Onde melhorar</span><p>Onde você mais perde é o <b data-draw="x-fraco" data-source="pista_piloto referencia_pista">—</b>: são <b data-draw="x-fraco-gap" data-source="pista_piloto referencia_pista">—</b> por volta para a referência.</p></div>
+        <div class="item"><span class="idt-badge b-primary">Constância</span><p>Seu trecho menos constante é o <b data-draw="x-varia" data-source="pista_piloto">—</b>: na média você passa por ele <b data-draw="x-varia-gap" data-source="pista_piloto">—</b> acima do seu melhor tempo ali.</p></div>
+      </div>
+      <p class="idt-note" data-xnosec hidden>Nesta pista o kartódromo não registrou tempos por trecho nas suas provas, então não há diagnóstico por trecho.</p>
+    </div>
+
+    <div class="idt-grid">
+      <div class="idt-card" id="card-trechos">
+        <div class="idt-card-head"><div>
+          <h3>Onde você perde tempo</h3>
+          <p class="idt-note">Ritmo: seu melhor contra a referência. Constância: sua média contra o seu melhor.</p>
+        </div></div>
+        <div class="idt-legend" data-xsec><span><i class="sw-primary"></i>Ritmo</span><span><i style="background: var(--idt-c3)"></i>Constância</span></div>
+        <div class="idt-chart" data-draw="x-barras" data-source="pista_piloto referencia_pista"></div>
+      </div>
+      <div class="idt-card" id="card-evolucao-pista">
+        <div class="idt-card-head"><div>
+          <h3>Sua evolução nesta pista</h3>
+          <p class="idt-note">Quanto mais baixo, mais rápido.</p>
+        </div></div>
+        <div class="idt-legend"><span><i class="line sw-primary"></i>Melhor volta</span><span><i class="line" style="background: var(--idt-c4)"></i>Volta ideal da prova</span></div>
+        <div class="idt-chart" data-draw="x-evolucao" data-source="voltas corridas pista_piloto"></div>
+      </div>
+    </div>
+
+    <div class="idt-card" id="card-tabela-trechos">
+      <div class="idt-card-head"><div>
+        <h3>Trecho a trecho</h3>
+        <p class="idt-note">Seu melhor e sua média em cada trecho, nas voltas limpas.</p>
+      </div></div>
+      <div class="idt-tablebox" data-draw="x-tabela" data-source="pista_piloto referencia_pista"></div>
+    </div>
+  </section>
+
+  <!-- @@CORRIDAS@@ -->
+
+  <!-- PÁGINA 5: Administração (só para quem pode editar) -->
+  <!-- @@ADMIN@@ -->
+</div>
+
+<script>
+dash.calc('pilotos', {
+  title: 'Números por piloto',
+  description: 'Provas, presença, vitórias, pódios, posição média, voltas mais rápidas e pontos (sistema F1) de cada piloto.',
+  inputs: ['resultados'],
+  fn: (resultados) => {
+    const PONTOS = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1];
+    const provas = new Set(resultados.map((r) => r.corrida)).size;
+    const rapida = new Map();
+    for (const r of resultados) {
+      const t = Number(r.melhor_volta_s), cur = rapida.get(r.corrida);
+      if (!cur || t < cur.t) rapida.set(r.corrida, {t, piloto: r.piloto});
+    }
+    const m = new Map();
+    for (const r of resultados) {
+      const pos = Number(r.pos);
+      let d = m.get(r.piloto);
+      if (!d) { d = {piloto: r.piloto, corridas: 0, participacao: 0, vitorias: 0, podios: 0, top5: 0, melhor_pos: 999, pos_media: 0, voltas_rapidas: 0, pontos: 0, voltas: 0, soma: 0}; m.set(r.piloto, d); }
+      d.corridas += 1; d.soma += pos; d.voltas += Number(r.voltas);
+      if (pos === 1) d.vitorias += 1;
+      if (pos <= 3) d.podios += 1;
+      if (pos <= 5) d.top5 += 1;
+      d.melhor_pos = Math.min(d.melhor_pos, pos);
+      d.pontos += PONTOS[pos - 1] || 0;
+      if (rapida.get(r.corrida).piloto === r.piloto) d.voltas_rapidas += 1;
+    }
+    return [...m.values()].map(({soma, ...d}) => ({...d, participacao: d.corridas / provas, pos_media: Math.round((soma / d.corridas) * 10) / 10}))
+      .sort((a, b) => b.corridas - a.corridas || b.vitorias - a.vitorias || b.pontos - a.pontos || a.piloto.localeCompare(b.piloto));
+  },
+});
+
+dash.calc('corridas', {
+  title: 'Resumo por prova',
+  description: 'Data, kartódromo, tamanho do grid, vencedor e volta mais rápida de cada prova.',
+  inputs: ['resultados'],
+  fn: (resultados) => {
+    const m = new Map();
+    for (const r of resultados) {
+      const k = Number(r.corrida);
+      if (!m.has(k)) m.set(k, []);
+      m.get(k).push(r);
+    }
+    return [...m.entries()].sort((a, b) => a[0] - b[0]).map(([corrida, rs]) => {
+      const v = rs.find((r) => Number(r.pos) === 1);
+      const f = rs.reduce((a, b) => (Number(b.melhor_volta_s) < Number(a.melhor_volta_s) ? b : a));
+      return {corrida, data: rs[0].data, kartodromo: rs[0].kartodromo, participantes: rs.length, vencedor: v ? v.piloto : '', volta_rapida_piloto: f.piloto, volta_rapida_s: Number(f.melhor_volta_s)};
+    });
+  },
+});
+
+dash.calc('resumo', {
+  title: 'Indicadores da temporada',
+  description: 'Totais da temporada e os líderes em pontos, vitórias e voltas mais rápidas.',
+  inputs: ['pilotos', 'corridas'],
+  fn: (pilotos, corridas) => {
+    const top = (k) => pilotos.slice().sort((a, b) => b[k] - a[k] || b.pontos - a.pontos || a.piloto.localeCompare(b.piloto));
+    const pts = top('pontos'), vit = top('vitorias'), rap = top('voltas_rapidas');
+    const datas = corridas.map((c) => c.data).sort();
+    return [{
+      inicio: datas[0],
+      fim: datas[datas.length - 1],
+      corridas: corridas.length,
+      kartodromos: new Set(corridas.map((c) => c.kartodromo)).size,
+      pilotos: pilotos.length,
+      fieis: pilotos.filter((p) => p.corridas >= 5).length,
+      media_participantes: Math.round((corridas.reduce((s, c) => s + c.participantes, 0) / corridas.length) * 10) / 10,
+      maior_grid: Math.max(...corridas.map((c) => c.participantes)),
+      lider: pts[0].piloto,
+      lider_pontos: pts[0].pontos,
+      vantagem: pts[0].pontos - pts[1].pontos,
+      mais_vitorias: vit[0].piloto,
+      mais_vitorias_n: vit[0].vitorias,
+      mais_rapidas: rap[0].piloto,
+      mais_rapidas_n: rap[0].voltas_rapidas,
+    }];
+  },
+});
+</script>
+
+<script>
+(() => {
+  const nf = new Intl.NumberFormat('pt-BR');
+  const nf1 = new Intl.NumberFormat('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 1});
+  const pct = new Intl.NumberFormat('pt-BR', {style: 'percent', maximumFractionDigits: 0});
+  const volta = (s) => { const m = Math.floor(s / 60); return m + ':' + (s - m * 60).toFixed(3).padStart(6, '0').replace('.', ','); };
+  const dataBR = (iso) => iso.slice(8, 10) + '/' + iso.slice(5, 7) + '/' + iso.slice(0, 4);
+  const MESES = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
+  const mes = (iso) => MESES[Number(iso.slice(5, 7)) - 1] + '/' + iso.slice(2, 4);
+  const S = window.idtState = {a: null, b: null, sort: {key: 'corridas', dir: -1}, busca: '', min: 1, top: 10};
+
+  // Cores lidas dos tokens em tempo de execução
+  const root = () => document.querySelector('.idt');
+  const tok = (name) => getComputedStyle(root()).getPropertyValue(name).trim();
+
+  // ---------- navegação ----------
+  const show = (name) => {
+    document.querySelectorAll('[data-page]').forEach((s) => { s.hidden = s.dataset.page !== name; });
+    document.querySelectorAll('[data-tab]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === name)));
+  };
+  document.querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => { show(b.dataset.tab); dash.setLink(b.dataset.tab); }));
+  const h = location.hash.slice(1);
+  if (['analise', 'geral', 'corridas', 'voltas', 'raiox', 'admin'].includes(h)) show(h);
+
+  const press = (sel, attr, val) => document.querySelectorAll(sel).forEach((x) => x.setAttribute('aria-pressed', String(x.getAttribute(attr) === String(val))));
+  document.querySelectorAll('[data-top]').forEach((b) => b.addEventListener('click', () => { S.top = Number(b.dataset.top); press('[data-top]', 'data-top', S.top); dash.draw('tb-pontos'); }));
+  document.querySelectorAll('[data-min]').forEach((b) => b.addEventListener('click', () => { S.min = Number(b.dataset.min); press('[data-min]', 'data-min', S.min); dash.draw('tb-todos'); dash.draw('count'); }));
+  document.querySelectorAll('#idt-search').forEach((s) => s.addEventListener('input', () => { S.busca = s.value.trim().toLowerCase(); dash.draw('tb-todos'); dash.draw('count'); }));
+  document.querySelectorAll('#idt-swap').forEach((b) => b.addEventListener('click', () => { [S.a, S.b] = [S.b, S.a]; redrawCmp(); }));
+  const redrawCmp = () => ['pick-a', 'pick-b', 'h2h', 'cmp', 'cmp-legend', 'ch-evolucao', 'tb-todos'].forEach((n) => dash.draw(n));
+
+  // ---------- valores únicos ----------
+  const one = (name, src, field, fmt) => dash.draw(name, (el) => {
+    const d = dash.data(src);
+    const row = d.status === 'ok' ? d.data[0] : null;
+    el.textContent = row && row[field] != null ? fmt(row[field]) : '—';
+  });
+  one('s-ini', 'resumo', 'inicio', mes); one('s-fim', 'resumo', 'fim', mes);
+  one('k-lider', 'resumo', 'lider', String); one('k-lider-pts', 'resumo', 'lider_pontos', nf.format); one('k-lider-gap', 'resumo', 'vantagem', (v) => nf.format(v) + ' pts');
+  one('k-provas', 'resumo', 'corridas', nf.format); one('k-kart', 'resumo', 'kartodromos', nf.format);
+  one('k-pilotos', 'resumo', 'pilotos', nf.format); one('k-fieis', 'resumo', 'fieis', nf.format);
+  one('k-media', 'resumo', 'media_participantes', nf1.format); one('k-maior', 'resumo', 'maior_grid', nf.format);
+  one('k-mv', 'resumo', 'mais_vitorias', String); one('k-mv-n', 'resumo', 'mais_vitorias_n', nf.format);
+  one('k-mr', 'resumo', 'mais_rapidas', String); one('k-mr-n', 'resumo', 'mais_rapidas_n', nf.format);
+
+  // ---------- utilitários ----------
+  const tipFor = (el) => {
+    const t = document.createElement('div'); t.className = 'idt-tip'; t.hidden = true; el.appendChild(t);
+    return {
+      show(ev, head, lines) {
+        t.replaceChildren();
+        const a = document.createElement('div'); a.className = 't'; a.textContent = head; t.appendChild(a);
+        lines.forEach((l) => { const b = document.createElement('div'); b.textContent = l; t.appendChild(b); });
+        t.hidden = false;
+        const box = el.getBoundingClientRect();
+        let x = ev.clientX - box.left + 12, y = ev.clientY - box.top + 12;
+        if (x + t.offsetWidth > box.width) x = Math.max(0, ev.clientX - box.left - t.offsetWidth - 12);
+        if (y + t.offsetHeight > box.height) y = Math.max(0, ev.clientY - box.top - t.offsetHeight - 12);
+        t.style.left = x + 'px'; t.style.top = y + 'px';
+      },
+      hide() { t.hidden = true; },
+    };
+  };
+  const td = (tr, text, cls) => { const c = document.createElement('td'); if (cls) c.className = cls; c.textContent = text; tr.appendChild(c); return c; };
+  const badgePos = (cell, p) => {
+    cell.textContent = '';
+    const s = document.createElement('span'); s.className = 'idt-badge ' + (p === 1 ? 'b-p1' : p === 2 ? 'b-p2' : p === 3 ? 'b-p3' : 'b-neutral'); s.textContent = 'P' + p;
+    cell.appendChild(s);
+  };
+
+  // Barras horizontais
+  const hbars = (el, rows, series, colorOf, lines) => {
+    const W = Math.max(280, el.clientWidth || 400), rowH = 24, top = 2, plotH = rows.length * rowH, H = top + plotH + 22;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    const probe = svg.append('text').attr('class', 'strong');
+    let lw = 0; rows.forEach((r) => { probe.text(r.piloto); lw = Math.max(lw, probe.node().getComputedTextLength()); }); probe.remove();
+    const left = Math.min(lw + 12, W * 0.46), right = 30;
+    const max = d3.max(rows, (r) => d3.sum(series, (k) => r[k])) || 1;
+    const x = d3.scaleLinear([0, max], [left, W - right]);
+    const y = d3.scaleBand(rows.map((r) => r.piloto), [top, top + plotH]).padding(0.28);
+    const ticks = x.ticks(Math.max(2, Math.floor((W - left) / 64))).filter(Number.isInteger);
+    svg.append('g').selectAll('line').data(ticks).join('line').attr('x1', x).attr('x2', x).attr('y1', top).attr('y2', top + plotH).attr('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('text').data(ticks).join('text').attr('x', x).attr('y', H - 4).attr('text-anchor', 'middle').text((d) => nf.format(d));
+    svg.append('g').selectAll('text').data(rows).join('text').attr('class', 'strong').attr('x', left - 10).attr('y', (r) => y(r.piloto) + y.bandwidth() / 2).attr('dy', '0.35em').attr('text-anchor', 'end').text((r) => r.piloto);
+    const tip = tipFor(el);
+    series.forEach((k, i) => {
+      svg.append('g').selectAll('rect').data(rows).join('rect')
+        .attr('x', (r) => x(d3.sum(series.slice(0, i), (p) => r[p]))).attr('y', (r) => y(r.piloto))
+        .attr('height', y.bandwidth()).attr('width', (r) => Math.max(0, x(r[k]) - x(0))).attr('rx', 3)
+        .attr('fill', (r) => colorOf(k, r).c).attr('fill-opacity', (r) => colorOf(k, r).o)
+        .style('cursor', 'pointer')
+        .on('mousemove', (ev, r) => tip.show(ev, r.piloto, lines(r)))
+        .on('mouseleave', () => tip.hide())
+        .on('click', (ev, r) => { S.a = r.piloto; show('analise'); dash.setLink('analise'); redrawCmp(); });
+    });
+    svg.append('g').selectAll('text').data(rows).join('text').attr('class', 'strong').attr('x', (r) => x(d3.sum(series, (k) => r[k])) + 6).attr('y', (r) => y(r.piloto) + y.bandwidth() / 2).attr('dy', '0.35em').text((r) => nf.format(d3.sum(series, (k) => r[k])));
+  };
+
+  dash.draw('ch-corridas', (el) => {
+    el.replaceChildren();
+    const d = dash.data('pilotos');
+    if (d.status !== 'ok') { el.textContent = '—'; return; }
+    const p = tok('--idt-primary');
+    const top = d.data.slice().sort((a, b) => b.corridas - a.corridas || b.pontos - a.pontos || a.piloto.localeCompare(b.piloto)).slice(0, 15);
+    hbars(el, top, ['corridas'], () => ({c: p, o: 1}),
+      (r) => [`${nf.format(r.corridas)} provas · ${pct.format(r.participacao)} de presença`]);
+  });
+
+  dash.draw('ch-podios', (el) => {
+    el.replaceChildren();
+    const d = dash.data('pilotos');
+    if (d.status !== 'ok') { el.textContent = '—'; return; }
+    const p = tok('--idt-primary'), g = tok('--idt-ouro');
+    const rows = d.data.filter((r) => r.podios > 0).map((r) => ({...r, outros: r.podios - r.vitorias}))
+      .sort((a, b) => b.vitorias - a.vitorias || b.podios - a.podios || a.piloto.localeCompare(b.piloto)).slice(0, 15);
+    hbars(el, rows, ['vitorias', 'outros'], (k) => ({c: k === 'vitorias' ? g : p, o: 1}),
+      (r) => [`${nf.format(r.vitorias)} vitórias · ${nf.format(r.podios)} pódios`, `em ${nf.format(r.corridas)} provas`]);
+  });
+
+  // ---------- tabelas página 1 ----------
+  dash.draw('tb-pontos', (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('pilotos');
+    if (d.status !== 'ok') return;
+    d.data.slice().sort((a, b) => b.pontos - a.pontos || b.vitorias - a.vitorias || a.piloto.localeCompare(b.piloto)).slice(0, S.top).forEach((r, i) => {
+      const tr = document.createElement('tr'); tr.dataset.key = r.piloto;
+      const c = td(tr, ''); const rk = document.createElement('span'); rk.className = 'idt-rank' + (i < 3 ? ' r' + (i + 1) : ''); rk.textContent = String(i + 1);
+      c.append(rk, document.createTextNode(r.piloto));
+      td(tr, nf.format(r.pontos)).style.fontWeight = '600';
+      td(tr, nf.format(r.corridas)); td(tr, nf.format(r.vitorias)); td(tr, nf.format(r.podios));
+      tb.appendChild(tr);
+    });
+  });
+
+  dash.draw('tb-provas', (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('corridas');
+    if (d.status !== 'ok') return;
+    d.data.slice().reverse().forEach((r) => {
+      const tr = document.createElement('tr'); tr.dataset.key = String(r.corrida);
+      td(tr, String(r.corrida)); td(tr, dataBR(r.data), 'l'); td(tr, r.kartodromo, 'l'); td(tr, nf.format(r.participantes));
+      const w = td(tr, '', 'l'); const b = document.createElement('span'); b.className = 'idt-badge b-p1'; b.textContent = 'P1'; w.append(b, document.createTextNode(' ' + r.vencedor));
+      td(tr, r.volta_rapida_piloto, 'l'); td(tr, volta(r.volta_rapida_s), 'idt-fast');
+      tb.appendChild(tr);
+    });
+  });
+
+  // ---------- comparador ----------
+  const defaults = (rows) => {
+    if (!S.a || !rows.some((r) => r.piloto === S.a)) S.a = rows[0] && rows[0].piloto;
+    if (!S.b || S.b === S.a || !rows.some((r) => r.piloto === S.b)) S.b = (rows.find((r) => r.piloto !== S.a) || {}).piloto;
+  };
+  const picker = (name, key) => dash.draw(name, (sel) => {
+    const d = dash.data('pilotos');
+    const rows = d.status === 'ok' ? d.data : [];
+    defaults(rows);
+    sel.replaceChildren(...rows.slice().sort((a, b) => a.piloto.localeCompare(b.piloto)).map((r) => new Option(`${r.piloto} · ${r.corridas} ${r.corridas === 1 ? 'prova' : 'provas'}`, r.piloto)));
+    sel.value = S[key] || '';
+    sel.onchange = () => { S[key] = sel.value; redrawCmp(); };
+  });
+  picker('pick-a', 'a'); picker('pick-b', 'b');
+
+  const pairData = () => {
+    const pd = dash.data('pilotos');
+    if (pd.status === 'ok') defaults(pd.data);
+    const d = dash.data('resultados');
+    if (d.status !== 'ok' || !S.a || !S.b) return null;
+    const rows = d.data.map((r) => ({corrida: Number(r.corrida), data: r.data, kartodromo: r.kartodromo, pos: Number(r.pos), piloto: r.piloto}));
+    const A = new Map(rows.filter((r) => r.piloto === S.a).map((r) => [r.corrida, r]));
+    const B = new Map(rows.filter((r) => r.piloto === S.b).map((r) => [r.corrida, r]));
+    const juntos = [...A.keys()].filter((k) => B.has(k));
+    return {rows, A, B, juntos, aw: juntos.filter((k) => A.get(k).pos < B.get(k).pos).length, bw: juntos.filter((k) => B.get(k).pos < A.get(k).pos).length};
+  };
+
+  dash.draw('h2h', (el) => {
+    el.replaceChildren();
+    const p = pairData();
+    if (!p) { el.textContent = '—'; return; }
+    const side = (cls, name, n, label) => {
+      const s = document.createElement('div'); s.className = 'side ' + cls;
+      const w = document.createElement('div'); w.className = 'who'; w.textContent = name;
+      const b = document.createElement('div'); b.className = 'big'; b.textContent = nf.format(n);
+      const l = document.createElement('div'); l.className = 'idt-note'; l.textContent = label;
+      s.append(w, b, l); return s;
+    };
+    const vs = document.createElement('div'); vs.className = 'vs';
+    const t = document.createElement('div'); t.textContent = 'VS';
+    const j = document.createElement('span'); j.textContent = p.juntos.length ? `${nf.format(p.juntos.length)} ${p.juntos.length === 1 ? 'prova' : 'provas'} juntos` : 'nunca correram juntos';
+    vs.append(t, j);
+    el.append(side('a', S.a, p.aw, 'vezes à frente'), vs, side('b', S.b, p.bw, 'vezes à frente'));
+  });
+
+  dash.draw('cmp', (tbl) => {
+    tbl.replaceChildren();
+    const d = dash.data('pilotos');
+    if (d.status !== 'ok') return;
+    const A = d.data.find((r) => r.piloto === S.a), B = d.data.find((r) => r.piloto === S.b);
+    if (!A || !B) return;
+    const tb = document.createElement('tbody');
+    [['Pontos', 'pontos', 1, nf.format], ['Provas', 'corridas', 1, nf.format], ['Vitórias', 'vitorias', 1, nf.format], ['Pódios', 'podios', 1, nf.format],
+     ['Melhor posição', 'melhor_pos', -1, (v) => 'P' + v], ['Posição média', 'pos_media', -1, nf1.format]]
+      .forEach(([lab, k, better, f]) => {
+        const tr = document.createElement('tr');
+        const ca = td(tr, f(A[k])); td(tr, lab); const cb = td(tr, f(B[k]));
+        if (A[k] !== B[k]) ((A[k] - B[k]) * better > 0 ? ca : cb).classList.add('win');
+        tb.appendChild(tr);
+      });
+    tbl.appendChild(tb);
+  });
+
+  dash.draw('cmp-legend', (el) => {
+    el.replaceChildren();
+    if (!S.a || !S.b) { el.textContent = '—'; return; }
+    [[S.a, 'sw-primary'], [S.b, 'sw-serie2']].forEach(([n, c]) => {
+      const s = document.createElement('span'); const i = document.createElement('i'); i.className = 'line ' + c; s.append(i, document.createTextNode(n)); el.appendChild(s);
+    });
+  });
+
+  dash.draw('ch-evolucao', (el) => {
+    el.replaceChildren();
+    const p = pairData();
+    if (!p) { el.textContent = '—'; return; }
+    const provas = [...d3.group(p.rows, (r) => r.corrida)].map(([corrida, rs]) => ({corrida, data: rs[0].data, kartodromo: rs[0].kartodromo, n: rs.length})).sort((a, b) => a.corrida - b.corrida);
+    const W = Math.max(300, el.clientWidth || 600), H = 280, m = {t: 14, r: 12, b: 40, l: 40};
+    const maxN = d3.max(provas, (q) => q.n);
+    const x = d3.scalePoint(provas.map((q) => q.corrida), [m.l, W - m.r]).padding(0.5);
+    const y = d3.scaleLinear([1, maxN], [m.t, H - m.b]);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    const yt = [1, 5, 10, 15, 20, 25, 30].filter((v) => v <= maxN);
+    svg.append('g').selectAll('line').data(yt).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y).attr('y2', y).attr('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('text').data(yt).join('text').attr('x', m.l - 8).attr('y', y).attr('dy', '0.35em').attr('text-anchor', 'end').text((v) => 'P' + v);
+    svg.append('g').selectAll('line').data(provas).join('line').attr('x1', (q) => x(q.corrida)).attr('x2', (q) => x(q.corrida)).attr('y1', y(1)).attr('y2', (q) => y(q.n))
+      .attr('stroke', 'var(--cds-chart-muted)').attr('stroke-width', Math.min(10, x.step() * 0.35)).attr('stroke-linecap', 'round').attr('opacity', 0.25);
+    const step = W < 520 ? 2 : 1;
+    svg.append('g').selectAll('text').data(provas.filter((q, i) => i % step === 0)).join('text').attr('x', (q) => x(q.corrida)).attr('y', H - m.b + 18).attr('text-anchor', 'middle').text((q) => mes(q.data));
+    const tip = tipFor(el);
+    const byN = new Map(provas.map((q) => [q.corrida, q]));
+    [[p.A, tok('--idt-primary'), S.a], [p.B, tok('--idt-serie2'), S.b]].forEach(([mp, c, name]) => {
+      const pts = [...mp.values()].sort((a, b) => a.corrida - b.corrida);
+      svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', c).attr('stroke-width', 2.25).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round').attr('d', d3.line((r) => x(r.corrida), (r) => y(r.pos)));
+      svg.append('g').selectAll('circle').data(pts).join('circle').attr('cx', (r) => x(r.corrida)).attr('cy', (r) => y(r.pos)).attr('r', (r) => (r.pos <= 3 ? 6 : 4.5))
+        .attr('fill', (r) => (r.pos === 1 ? tok('--idt-ouro') : c)).attr('stroke', c).attr('stroke-width', 2)
+        .on('mousemove', (ev, r) => { const q = byN.get(r.corrida); tip.show(ev, `Prova ${r.corrida} · ${dataBR(q.data)} · ${q.kartodromo}`, [`${name}: P${r.pos} de ${q.n}`]); })
+        .on('mouseleave', () => tip.hide());
+    });
+  });
+
+  // ---------- tabela completa ----------
+  const filtered = (rows) => rows.filter((r) => r.corridas >= S.min && (!S.busca || r.piloto.toLowerCase().includes(S.busca)));
+  document.querySelectorAll('.idt-sortable th[data-sort] button').forEach((b) => b.addEventListener('click', () => {
+    const key = b.closest('th').dataset.sort, st = S.sort;
+    if (st.key === key) st.dir = -st.dir; else { st.key = key; st.dir = ['piloto', 'melhor_pos', 'pos_media'].includes(key) ? 1 : -1; }
+    document.querySelectorAll('.idt-sortable th[data-sort]').forEach((t) => { if (t.dataset.sort === key) t.setAttribute('aria-sort', st.dir > 0 ? 'ascending' : 'descending'); else t.removeAttribute('aria-sort'); });
+    dash.draw('tb-todos');
+  }));
+  document.querySelectorAll('.idt-sortable').forEach((t) => t.addEventListener('click', (ev) => {
+    const tr = ev.target.closest('tbody tr[data-key]');
+    if (!tr) return;
+    if (tr.dataset.key !== S.a) { S.b = S.a; S.a = tr.dataset.key; }
+    redrawCmp();
+    document.querySelectorAll('#card-comparador').forEach((c) => c.scrollIntoView({behavior: 'smooth', block: 'start'}));
+  }));
+
+  dash.draw('count', (el) => {
+    const d = dash.data('pilotos');
+    if (d.status !== 'ok') { el.textContent = '—'; return; }
+    const n = filtered(d.data).length;
+    el.textContent = `${nf.format(n)} ${n === 1 ? 'piloto' : 'pilotos'}`;
+  });
+
+  dash.draw('tb-todos', (tb) => {
+    tb.replaceChildren();
+    const d = dash.data('pilotos');
+    if (d.status !== 'ok') return;
+    const {key, dir} = S.sort;
+    filtered(d.data).sort((a, b) => (key === 'piloto' ? a.piloto.localeCompare(b.piloto) : a[key] - b[key]) * dir || b.corridas - a.corridas || a.piloto.localeCompare(b.piloto))
+      .forEach((r) => {
+        const tr = document.createElement('tr'); tr.dataset.key = r.piloto; tr.style.cursor = 'pointer';
+        if (r.piloto === S.a || r.piloto === S.b) tr.className = 'is-sel';
+        td(tr, r.piloto); td(tr, nf.format(r.corridas)); td(tr, nf.format(r.pontos)).style.fontWeight = '600';
+        td(tr, nf.format(r.vitorias)); td(tr, nf.format(r.podios));
+        badgePos(td(tr, ''), r.melhor_pos); td(tr, nf1.format(r.pos_media));
+        tb.appendChild(tr);
+      });
+  });
+})();
+</script>
+
+<script>
+dash.calc('ritmo', {
+  title: 'Ritmo por piloto e prova',
+  description: 'Melhor volta, ritmo médio limpo, consistência (desvio padrão) e melhores setores de cada piloto em cada prova com volta a volta.',
+  inputs: ['voltas'],
+  fn: (voltas) => {
+    const num = (x) => (x === '' || x == null ? null : Number(x));
+    const r3 = (x) => (x == null ? null : Math.round(x * 1000) / 1000);
+    const g = new Map();
+    for (const r of voltas) {
+      const k = r.corrida + '|' + r.piloto;
+      if (!g.has(k)) g.set(k, []);
+      g.get(k).push(r);
+    }
+    return [...g.values()].map((rs) => {
+      const ok = rs.filter((r) => Number(r.valida) === 1);
+      const melhor = Math.min(...ok.map((r) => Number(r.tempo_s)));
+      const limpas = ok.filter((r) => Number(r.volta) > 1 && Number(r.tempo_s) <= melhor * 1.07).map((r) => Number(r.tempo_s));
+      const media = limpas.length ? limpas.reduce((a, b) => a + b, 0) / limpas.length : null;
+      const desvio = limpas.length > 1 ? Math.sqrt(limpas.reduce((a, b) => a + (b - media) ** 2, 0) / (limpas.length - 1)) : null;
+      const best = (k) => {
+        const v = ok.map((r) => num(r[k])).filter((x) => x != null && x > 0);
+        return v.length ? Math.min(...v) : null;
+      };
+      const s1 = best('s1'), s2 = best('s2'), s3 = best('s3');
+      return {corrida: Number(rs[0].corrida), piloto: rs[0].piloto, voltas: rs.length, melhor: r3(melhor), media: r3(media), desvio: r3(desvio),
+        s1: r3(s1), s2: r3(s2), s3: r3(s3), ideal: s1 && s2 && s3 ? r3(s1 + s2 + s3) : null};
+    });
+  },
+});
+</script>
+
+<script>
+(() => {
+  const S = window.idtState;
+  Object.assign(S, {vMode: 'pilotos', vRace: null, vDrivers: [], vDriver: null, vRaces: []});
+  const MAX = 4;
+  const tok = (name) => getComputedStyle(document.querySelector('.idt')).getPropertyValue(name).trim();
+  const colors = () => ['--idt-c1', '--idt-c2', '--idt-c3', '--idt-c4'].map(tok);
+  const dataBR = (iso) => iso.slice(8, 10) + '/' + iso.slice(5, 7) + '/' + iso.slice(0, 4);
+  const curto = (iso) => iso.slice(8, 10) + '/' + iso.slice(5, 7);
+  const volta = (s) => { const m = Math.floor(s / 60); return m + ':' + (s - m * 60).toFixed(3).padStart(6, '0').replace('.', ','); };
+  const seg = (s) => s.toFixed(3).replace('.', ',');
+  const delta = (d) => '+' + d.toFixed(3).replace('.', ',');
+  const encKey = (c, p) => encodeURIComponent(String(c)) + ',' + encodeURIComponent(p);
+
+  // ---------- estado / padrões ----------
+  const info = () => {
+    const v = dash.data('voltas'), res = dash.data('resultados'), cor = dash.data('corridas');
+    if (v.status !== 'ok' || res.status !== 'ok' || cor.status !== 'ok') return null;
+    const porProva = new Map();
+    for (const r of v.data) {
+      const n = Number(r.corrida);
+      if (!porProva.has(n)) porProva.set(n, new Set());
+      porProva.get(n).add(r.piloto);
+    }
+    const provas = cor.data.filter((c) => porProva.has(c.corrida));
+    const pos = new Map(res.data.map((r) => [r.corrida + '|' + r.piloto, Number(r.pos)]));
+    return {v: v.data, porProva, provas, pos, provaInfo: new Map(cor.data.map((c) => [c.corrida, c]))};
+  };
+  const ensure = (I) => {
+    if (!I) return;
+    if (!I.porProva.has(S.vRace)) S.vRace = Math.max(...I.porProva.keys());
+    const ps = I.porProva.get(S.vRace);
+    S.vDrivers = S.vDrivers.filter((p) => ps.has(p));
+    if (!S.vDrivers.length) S.vDrivers = [...ps].sort((a, b) => (I.pos.get(S.vRace + '|' + a) || 99) - (I.pos.get(S.vRace + '|' + b) || 99)).slice(0, 3);
+    const temVoltas = (p) => [...I.porProva.entries()].filter(([, s]) => s.has(p)).map(([n]) => n).sort((a, b) => a - b);
+    if (!S.vDriver || !temVoltas(S.vDriver).length) S.vDriver = S.a && temVoltas(S.a).length ? S.a : S.vDrivers[0];
+    const rs = temVoltas(S.vDriver);
+    S.vRaces = S.vRaces.filter((n) => rs.includes(n));
+    if (!S.vRaces.length) S.vRaces = rs.slice(-3);
+  };
+  const series = (I) => {
+    const c = colors();
+    if (!I) return [];
+    if (S.vMode === 'pilotos') return S.vDrivers.map((p, i) => ({corrida: S.vRace, piloto: p, label: p, color: c[i]}));
+    return S.vRaces.map((n, i) => ({corrida: n, piloto: S.vDriver, label: provaLabel(I, n), color: c[i]}));
+  };
+  // Mesmo formato da lista de provas do modo "Pilotos numa prova": número · data completa · kartódromo
+  const provaLabel = (I, n) => { const q = I.provaInfo.get(n); return `P${n} · ${dataBR(q.data)} · ${q.kartodromo}`; };
+  const lapsOf = (I, s) => I.v.filter((r) => Number(r.corrida) === s.corrida && r.piloto === s.piloto)
+    .map((r) => ({volta: Number(r.volta), t: Number(r.tempo_s), ok: Number(r.valida) === 1})).sort((a, b) => a.volta - b.volta);
+
+  const REDRAW = ['v-race', 'v-driver', 'v-chips', 'v-chart', 'v-resumo', 'v-setores', 'v-tabela'];
+  const applyVisibility = () => {
+    document.querySelectorAll('[data-vctl]').forEach((el) => { el.hidden = el.dataset.vctl !== S.vMode; });
+    document.querySelectorAll('[data-vmode]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.vmode === S.vMode)));
+    const r = dash.data('ritmo');
+    const I = info();
+    const ss = series(I);
+    const temSetor = r.status === 'ok' && ss.some((s) => r.data.some((x) => x.corrida === s.corrida && x.piloto === s.piloto && x.s1 != null));
+    document.querySelectorAll('[data-vnosec]').forEach((el) => { el.hidden = true; });
+    // sem tempos de setor nas provas escolhidas: o cartão inteiro some, em vez de mostrar um aviso vazio
+    document.querySelectorAll('#card-setores').forEach((el) => { el.hidden = r.status === 'ok' && !temSetor; });
+  };
+  const redraw = () => { applyVisibility(); REDRAW.forEach((n) => dash.draw(n)); };
+  window.idtVoltasRedraw = redraw;
+  document.querySelectorAll('[data-vmode]').forEach((b) => b.addEventListener('click', () => { S.vMode = b.dataset.vmode; redraw(); }));
+  dash.onData(() => { if (!document.getElementById('voltas') || document.getElementById('voltas').hidden) return; applyVisibility(); });
+  document.querySelectorAll('[data-tab="voltas"]').forEach((b) => b.addEventListener('click', () => applyVisibility()));
+
+  // ---------- controles ----------
+  dash.draw('v-race', (sel) => {
+    const I = info(); ensure(I);
+    sel.replaceChildren(...(I ? I.provas.slice().reverse() : []).map((c) => new Option(`${provaLabel(I, c.corrida)}${I.porProva.get(c.corrida).size === 1 ? ' (só 1 piloto)' : ''}`, String(c.corrida))));
+    sel.value = S.vRace != null ? String(S.vRace) : '';
+    sel.onchange = () => { S.vRace = Number(sel.value); S.vDrivers = []; redraw(); };
+  });
+
+  // Piloto: campo digitável com sugestões (datalist). Aceita o nome exato ou um trecho que só um piloto tenha.
+  const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+  const pilotosComVoltas = () => {
+    const I = info(); const cont = new Map();
+    if (I) for (const [, ps] of I.porProva) for (const p of ps) cont.set(p, (cont.get(p) || 0) + 1);
+    return cont;
+  };
+  const showDriver = () => document.querySelectorAll('#idt-vdriver').forEach((inp) => { if (inp !== document.activeElement) inp.value = S.vDriver || ''; });
+  const pickDriver = (txt, strict) => {
+    const q = norm(txt);
+    if (!q) return false;
+    const nomes = [...pilotosComVoltas().keys()];
+    const exato = nomes.find((p) => norm(p) === q);
+    const parcial = nomes.filter((p) => norm(p).includes(q));
+    const escolhido = exato || (!strict && parcial.length === 1 ? parcial[0] : null);
+    if (!escolhido) return false;
+    if (escolhido !== S.vDriver) { S.vDriver = escolhido; S.vRaces = []; redraw(); }
+    showDriver();
+    return true;
+  };
+  document.querySelectorAll('#idt-vdriver').forEach((inp) => {
+    inp.addEventListener('input', () => pickDriver(inp.value, true));
+    inp.addEventListener('change', () => pickDriver(inp.value, false));
+    inp.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') { pickDriver(inp.value, false); inp.blur(); } });
+    inp.addEventListener('blur', () => { inp.value = S.vDriver || ''; });
+    inp.addEventListener('focus', () => inp.select());
+  });
+
+  dash.draw('v-driver', (list) => {
+    const I = info(); ensure(I);
+    const cont = pilotosComVoltas();
+    list.replaceChildren(...[...cont.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([p, k]) => { const o = document.createElement('option'); o.value = p; o.label = `${k} ${k === 1 ? 'prova' : 'provas'}`; return o; }));
+    showDriver();
+  });
+
+  dash.draw('v-chips', (el) => {
+    el.replaceChildren();
+    const I = info(); ensure(I);
+    if (!I) { el.textContent = '—'; return; }
+    const ss = series(I);
+    const chip = (s, onClick, pressed) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'idt-btn secondary sm';
+      if (pressed != null) b.setAttribute('aria-pressed', String(pressed));
+      const d = document.createElement('span'); d.className = 'idt-dot'; d.style.background = s.color || 'var(--idt-ink-300)';
+      b.append(d, document.createTextNode(s.label));
+      b.onclick = onClick; return b;
+    };
+    if (S.vMode === 'pilotos') {
+      ss.forEach((s) => {
+        const b = chip(s, () => { if (S.vDrivers.length > 1) { S.vDrivers = S.vDrivers.filter((p) => p !== s.piloto); redraw(); } });
+        const x = document.createElement('span'); x.className = 'x'; x.textContent = '×'; b.appendChild(x);
+        b.setAttribute('aria-label', 'Remover ' + s.piloto); b.disabled = S.vDrivers.length === 1;
+        el.appendChild(b);
+      });
+      if (S.vDrivers.length < MAX) {
+        const sel = document.createElement('select'); sel.className = 'dash-select idt-sel'; sel.setAttribute('aria-label', 'Adicionar piloto');
+        const resto = [...I.porProva.get(S.vRace)].filter((p) => !S.vDrivers.includes(p)).sort((a, b) => (I.pos.get(S.vRace + '|' + a) || 99) - (I.pos.get(S.vRace + '|' + b) || 99));
+        sel.append(new Option('+ Adicionar piloto', ''), ...resto.map((p) => new Option(`P${I.pos.get(S.vRace + '|' + p) || '—'} · ${p}`, p)));
+        sel.onchange = () => { if (sel.value) { S.vDrivers = [...S.vDrivers, sel.value]; redraw(); } };
+        el.appendChild(sel);
+      }
+    } else {
+      ss.forEach((s) => {
+        const b = chip(s, () => { if (S.vRaces.length > 1) { S.vRaces = S.vRaces.filter((n) => n !== s.corrida); redraw(); } });
+        const x = document.createElement('span'); x.className = 'x'; x.textContent = '×'; b.appendChild(x);
+        b.setAttribute('aria-label', 'Remover prova ' + s.corrida); b.disabled = S.vRaces.length === 1;
+        el.appendChild(b);
+      });
+      if (S.vRaces.length < MAX) {
+        const rs = [...I.porProva.entries()].filter(([n, s]) => s.has(S.vDriver) && !S.vRaces.includes(n)).map(([n]) => n).sort((a, b) => b - a);
+        const sel = document.createElement('select'); sel.className = 'dash-select idt-sel'; sel.setAttribute('aria-label', 'Adicionar prova');
+        sel.append(new Option(rs.length ? '+ Adicionar prova' : 'Sem outras provas deste piloto', ''), ...rs.map((n) => new Option(provaLabel(I, n), String(n))));
+        sel.disabled = !rs.length;
+        sel.onchange = () => { if (sel.value) { S.vRaces = [...S.vRaces, Number(sel.value)].sort((a, b) => a - b); redraw(); } };
+        el.appendChild(sel);
+      }
+    }
+  });
+
+  // ---------- gráfico de ritmo ----------
+  dash.draw('v-chart', (el) => {
+    el.replaceChildren();
+    const I = info(); ensure(I);
+    if (!I) { el.textContent = '—'; return; }
+    const ss = series(I).map((s) => ({...s, laps: lapsOf(I, s)})).filter((s) => s.laps.length);
+    if (!ss.length) { el.textContent = '—'; return; }
+    const all = ss.flatMap((s) => s.laps.filter((l) => l.ok).map((l) => l.t)).sort((a, b) => a - b);
+    const lo = all[0], med = d3.quantile(all, 0.5);
+    const cap = Math.min(all[all.length - 1], Math.max(med * 1.12, lo * 1.06));
+    const maxLap = d3.max(ss, (s) => d3.max(s.laps, (l) => l.volta));
+    const W = Math.max(300, el.clientWidth || 600), H = 300, m = {t: 16, r: 14, b: 34, l: 56};
+    const x = d3.scaleLinear([1, maxLap], [m.l, W - m.r]);
+    const y = d3.scaleLinear([lo - (cap - lo) * 0.06, cap], [H - m.b, m.t]);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    const yt = y.ticks(5);
+    const fmtTick = (s) => { const mm = Math.floor(s / 60); return mm + ':' + (s - mm * 60).toFixed(1).padStart(4, '0').replace('.', ','); };
+    svg.append('g').selectAll('line').data(yt).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y).attr('y2', y).attr('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('text').data(yt).join('text').attr('x', m.l - 8).attr('y', y).attr('dy', '0.35em').attr('text-anchor', 'end').text(fmtTick);
+    const step = Math.max(1, Math.ceil(maxLap / Math.floor((W - m.l) / 34)));
+    const xt = d3.range(1, maxLap + 1).filter((v) => (v - 1) % step === 0);
+    svg.append('g').selectAll('text').data(xt).join('text').attr('x', x).attr('y', H - m.b + 18).attr('text-anchor', 'middle').text((v) => v);
+    svg.append('text').attr('x', W - m.r).attr('y', H - 2).attr('text-anchor', 'end').text('volta');
+    const cy = (t) => y(Math.min(t, cap));
+    ss.forEach((s) => {
+      const best = d3.min(s.laps.filter((l) => l.ok), (l) => l.t);
+      svg.append('path').datum(s.laps).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', 2).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round')
+        .attr('d', d3.line().defined((l) => l.ok).x((l) => x(l.volta)).y((l) => cy(l.t)));
+      const g = svg.append('g');
+      g.selectAll('circle').data(s.laps.filter((l) => l.ok && l.t <= cap)).join('circle').attr('cx', (l) => x(l.volta)).attr('cy', (l) => cy(l.t))
+        .attr('r', (l) => (l.t === best ? 6 : 3)).attr('fill', (l) => (l.t === best ? 'var(--idt-surface)' : s.color)).attr('stroke', s.color).attr('stroke-width', (l) => (l.t === best ? 2.5 : 0));
+      g.selectAll('path').data(s.laps.filter((l) => l.ok && l.t > cap)).join('path')
+        .attr('d', (l) => `M${x(l.volta) - 5},${m.t + 7} L${x(l.volta) + 5},${m.t + 7} L${x(l.volta)},${m.t} Z`).attr('fill', s.color);
+    });
+    // hover
+    const rule = svg.append('line').attr('class', 'hover-rule').attr('y1', m.t).attr('y2', H - m.b).style('display', 'none');
+    const tip = document.createElement('div'); tip.className = 'idt-tip'; tip.hidden = true; el.appendChild(tip);
+    svg.append('rect').attr('x', m.l).attr('y', m.t).attr('width', W - m.l - m.r).attr('height', H - m.t - m.b).attr('fill', 'transparent')
+      .on('mousemove', (ev) => {
+        const [px] = d3.pointer(ev);
+        const v = Math.max(1, Math.min(maxLap, Math.round(x.invert(px))));
+        rule.style('display', null).attr('x1', x(v)).attr('x2', x(v));
+        tip.replaceChildren();
+        const h = document.createElement('div'); h.className = 't'; h.textContent = 'Volta ' + v; tip.appendChild(h);
+        ss.forEach((s) => {
+          const l = s.laps.find((q) => q.volta === v);
+          const row = document.createElement('div'); row.className = 'row';
+          const d = document.createElement('span'); d.className = 'idt-dot'; d.style.background = s.color;
+          const b = document.createElement('b'); b.textContent = l ? (l.ok ? volta(l.t) : 'falha') : '—';
+          row.append(d, document.createTextNode(s.label), b); tip.appendChild(row);
+        });
+        tip.hidden = false;
+        const box = el.getBoundingClientRect();
+        let tx = ev.clientX - box.left + 14, ty = ev.clientY - box.top + 12;
+        if (tx + tip.offsetWidth > box.width) tx = ev.clientX - box.left - tip.offsetWidth - 14;
+        if (ty + tip.offsetHeight > box.height) ty = Math.max(0, box.height - tip.offsetHeight);
+        tip.style.left = Math.max(0, tx) + 'px'; tip.style.top = ty + 'px';
+      })
+      .on('mouseleave', () => { rule.style('display', 'none'); tip.hidden = true; });
+  });
+
+  // ---------- resumo ----------
+  const ritmoDe = (s) => { const r = dash.data('ritmo'); return r.status === 'ok' ? r.data.find((x) => x.corrida === s.corrida && x.piloto === s.piloto) : null; };
+  dash.draw('v-resumo', (tb) => {
+    tb.replaceChildren();
+    const I = info(); ensure(I);
+    if (!I || dash.data('ritmo').status !== 'ok') return;
+    const ss = series(I).map((s) => ({s, r: ritmoDe(s)})).filter((x) => x.r);
+    const min = (k) => d3.min(ss, (x) => x.r[k]);
+    const bM = min('melhor'), bA = min('media'), bD = min('desvio'), bI = min('ideal');
+    ss.forEach(({s, r}) => {
+      const tr = document.createElement('tr'); tr.dataset.key = encKey(r.corrida, r.piloto);
+      const td = (txt, cls) => { const c = document.createElement('td'); if (cls) c.className = cls; c.textContent = txt; tr.appendChild(c); return c; };
+      const c0 = td(''); const d = document.createElement('span'); d.className = 'idt-dot'; d.style.background = s.color; c0.append(d, document.createTextNode(r.piloto));
+      td(provaLabel(I, r.corrida));
+      td(volta(r.melhor), ss.length > 1 && r.melhor === bM ? 'best' : '');
+      td(r.media != null ? volta(r.media) : '—', ss.length > 1 && r.media === bA ? 'best' : '');
+      td(r.desvio != null ? '±' + seg(r.desvio) + ' s' : '—', ss.length > 1 && r.desvio === bD ? 'best' : '');
+      td(r.ideal != null ? volta(r.ideal) : '—', ss.length > 1 && r.ideal != null && r.ideal === bI ? 'best' : '');
+      td(String(r.voltas));
+      tb.appendChild(tr);
+    });
+  });
+
+  // ---------- setores ----------
+  dash.draw('v-setores', (el) => {
+    el.replaceChildren();
+    const I = info(); ensure(I);
+    if (!I || dash.data('ritmo').status !== 'ok') return;
+    const ss = series(I).map((s) => ({s, r: ritmoDe(s)})).filter((x) => x.r && x.r.s1 != null);
+    if (!ss.length) return;
+    const t = document.createElement('table'); t.className = 'idt-table';
+    const th = document.createElement('thead'), hr = document.createElement('tr');
+    const h0 = document.createElement('th'); h0.textContent = 'Setor'; hr.appendChild(h0);
+    ss.forEach(({s}) => { const h = document.createElement('th'); const d = document.createElement('span'); d.className = 'idt-dot'; d.style.background = s.color; h.append(d, document.createTextNode(s.label)); hr.appendChild(h); });
+    th.appendChild(hr); t.appendChild(th);
+    const tb = document.createElement('tbody');
+    [['S1', 's1', seg], ['S2', 's2', seg], ['S3', 's3', seg], ['Volta ideal', 'ideal', volta], ['Melhor volta real', 'melhor', volta]].forEach(([lab, k, f]) => {
+      const tr = document.createElement('tr'); if (k === 'ideal') tr.className = 'ideal';
+      const c0 = document.createElement('td'); c0.textContent = lab; tr.appendChild(c0);
+      const best = d3.min(ss, (x) => x.r[k]);
+      ss.forEach(({r}) => {
+        const c = document.createElement('td');
+        if (r[k] == null) c.textContent = '—';
+        else {
+          c.textContent = f(r[k]);
+          if (ss.length > 1 && r[k] === best) c.className = 'best';
+          else if (ss.length > 1) { const sp = document.createElement('span'); sp.className = 'delta'; sp.textContent = delta(r[k] - best); c.appendChild(sp); }
+        }
+        tr.appendChild(c);
+      });
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb); el.appendChild(t);
+  });
+
+  // ---------- tabela volta a volta ----------
+  dash.draw('v-tabela', (el) => {
+    el.replaceChildren();
+    const I = info(); ensure(I);
+    if (!I) { el.textContent = '—'; return; }
+    const ss = series(I).map((s) => ({...s, laps: lapsOf(I, s)})).filter((s) => s.laps.length);
+    if (!ss.length) { el.textContent = '—'; return; }
+    const maxLap = d3.max(ss, (s) => d3.max(s.laps, (l) => l.volta));
+    const t = document.createElement('table'); t.className = 'idt-table';
+    const th = document.createElement('thead'), hr = document.createElement('tr');
+    const h0 = document.createElement('th'); h0.textContent = 'Volta'; hr.appendChild(h0);
+    ss.forEach((s) => { const h = document.createElement('th'); const d = document.createElement('span'); d.className = 'idt-dot'; d.style.background = s.color; h.append(d, document.createTextNode(s.label)); hr.appendChild(h); });
+    th.appendChild(hr); t.appendChild(th);
+    const bests = ss.map((s) => d3.min(s.laps.filter((l) => l.ok), (l) => l.t));
+    const tb = document.createElement('tbody');
+    for (let v = 1; v <= maxLap; v++) {
+      const tr = document.createElement('tr');
+      const c0 = document.createElement('td'); c0.textContent = String(v); tr.appendChild(c0);
+      ss.forEach((s, i) => {
+        const l = s.laps.find((q) => q.volta === v);
+        const c = document.createElement('td');
+        if (!l) c.textContent = '—';
+        else {
+          c.textContent = volta(l.t);
+          if (!l.ok) { c.className = 'bad'; c.title = 'Falha de cronometragem'; }
+          else if (l.t === bests[i]) c.className = 'best';
+          else { c.className = l.t > bests[i] * 1.07 ? 'slow' : ''; const sp = document.createElement('span'); sp.className = 'delta'; sp.textContent = delta(l.t - bests[i]); c.appendChild(sp); }
+        }
+        tr.appendChild(c);
+      });
+      tb.appendChild(tr);
+    }
+    t.appendChild(tb); el.appendChild(t);
+  });
+})();
+</script>
+
+<script>
+dash.calc('pista_piloto', {
+  title: 'Desempenho por pista',
+  description: 'Para cada piloto e pista: melhor volta, volta ideal (soma dos melhores setores), ritmo médio e a média e a variação de cada setor nas voltas limpas.',
+  inputs: ['voltas'],
+  fn: (voltas) => {
+    const r3 = (x) => (x == null || !isFinite(x) ? null : Math.round(x * 1000) / 1000);
+    const mean = (a) => (a.length ? a.reduce((s, x) => s + x, 0) / a.length : null);
+    const sd = (a) => { if (a.length < 2) return null; const m = mean(a); return Math.sqrt(a.reduce((s, x) => s + (x - m) ** 2, 0) / (a.length - 1)); };
+    const ok = voltas.filter((r) => Number(r.valida) === 1).map((r) => ({
+      pista: r.pista, corrida: Number(r.corrida), piloto: r.piloto, volta: Number(r.volta), t: Number(r.tempo_s),
+      s: r.s1 === '' || r.s1 == null ? null : [Number(r.s1), Number(r.s2), Number(r.s3)],
+    }));
+    const bestRace = new Map();
+    for (const l of ok) { const k = l.corrida + '|' + l.piloto; bestRace.set(k, Math.min(bestRace.has(k) ? bestRace.get(k) : Infinity, l.t)); }
+    const g = new Map();
+    for (const l of ok) { const k = l.pista + '|' + l.piloto; if (!g.has(k)) g.set(k, []); g.get(k).push(l); }
+    return [...g.values()].map((ls) => {
+      const best = ls.reduce((a, b) => (b.t < a.t ? b : a));
+      const limpas = ls.filter((l) => l.volta > 1 && l.t <= bestRace.get(l.corrida + '|' + l.piloto) * 1.07);
+      const comSet = ls.filter((l) => l.s), limpasSet = limpas.filter((l) => l.s);
+      const sb = [0, 1, 2].map((i) => (comSet.length ? Math.min(...comSet.map((l) => l.s[i])) : null));
+      const sm = [0, 1, 2].map((i) => mean(limpasSet.map((l) => l.s[i])));
+      const sv = [0, 1, 2].map((i) => sd(limpasSet.map((l) => l.s[i])));
+      return {
+        pista: ls[0].pista, piloto: ls[0].piloto, provas: new Set(ls.map((l) => l.corrida)).size, voltas: ls.length,
+        melhor: r3(best.t), melhor_corrida: best.corrida, media: r3(mean(limpas.map((l) => l.t))), desvio: r3(sd(limpas.map((l) => l.t))),
+        s1: r3(sb[0]), s2: r3(sb[1]), s3: r3(sb[2]), ideal: comSet.length ? r3(sb[0] + sb[1] + sb[2]) : null,
+        m1: r3(sm[0]), m2: r3(sm[1]), m3: r3(sm[2]), d1: r3(sv[0]), d2: r3(sv[1]), d3: r3(sv[2]), voltas_setor: limpasSet.length,
+      };
+    });
+  },
+});
+
+dash.calc('referencia_pista', {
+  title: 'Referências por pista',
+  description: 'Melhor tempo de cada setor e melhor volta em cada pista: de qualquer piloto e só do núcleo do grupo (pilotos com 5 ou mais provas). A melhor volta vem do resultado oficial de cada prova da pista.',
+  inputs: ['pista_piloto', 'pilotos', 'resultados', 'voltas'],
+  fn: (pista_piloto, pilotos, resultados, voltas) => {
+    const nucleo = new Set(pilotos.filter((p) => p.corridas >= 5).map((p) => p.piloto));
+    const pistaDaProva = new Map(voltas.map((r) => [Number(r.corrida), r.pista]));
+    const oficial = resultados.filter((r) => pistaDaProva.has(Number(r.corrida))).map((r) => ({pista: pistaDaProva.get(Number(r.corrida)), piloto: r.piloto, melhor: Number(r.melhor_volta_s)}));
+    const g = new Map();
+    for (const r of pista_piloto) { if (!g.has(r.pista)) g.set(r.pista, []); g.get(r.pista).push(r); }
+    const out = [];
+    for (const [pista, rs] of g) {
+      for (const grupo of ['todos', 'nucleo']) {
+        const xs = grupo === 'todos' ? rs : rs.filter((r) => nucleo.has(r.piloto));
+        const pick = (k) => { const c = xs.filter((r) => r[k] != null); if (!c.length) return [null, null]; const b = c.reduce((a, x) => (x[k] < a[k] ? x : a)); return [b[k], b.piloto]; };
+        const [r1, p1] = pick('s1'), [r2, p2] = pick('s2'), [r3, p3] = pick('s3');
+        const ofs = oficial.filter((r) => r.pista === pista && (grupo === 'todos' || nucleo.has(r.piloto)));
+        const bo = ofs.length ? ofs.reduce((a, x) => (x.melhor < a.melhor ? x : a)) : null;
+        const mv = bo ? bo.melhor : null, pm = bo ? bo.piloto : null;
+        out.push({pista, grupo, r1, r1_piloto: p1, r2, r2_piloto: p2, r3, r3_piloto: p3,
+          ideal: r1 != null && r2 != null && r3 != null ? Math.round((r1 + r2 + r3) * 1000) / 1000 : null, melhor: mv, melhor_piloto: pm});
+      }
+    }
+    return out;
+  },
+});
+</script>
+
+<script>
+(() => {
+  const S = window.idtState;
+  Object.assign(S, {xPiloto: null, xPista: null, xRef: 'todos'});
+  const tok = (name) => getComputedStyle(document.querySelector('.idt')).getPropertyValue(name).trim();
+  const dataBR = (iso) => iso.slice(8, 10) + '/' + iso.slice(5, 7) + '/' + iso.slice(0, 4);
+  const volta = (s) => { const m = Math.floor(s / 60); return m + ':' + (s - m * 60).toFixed(3).padStart(6, '0').replace('.', ','); };
+  const seg = (s) => s.toFixed(3).replace('.', ',') + ' s';
+  const mais = (s) => '+' + s.toFixed(3).replace('.', ',') + ' s';
+  const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+
+  // ---------- estado ----------
+  const ensureX = (rows) => {
+    const nomes = new Set(rows.map((r) => r.piloto));
+    if (!S.xPiloto || !nomes.has(S.xPiloto)) S.xPiloto = nomes.has(S.a) ? S.a : (nomes.has('Lucas Pinheiro') ? 'Lucas Pinheiro' : [...nomes][0]);
+    const minhas = rows.filter((r) => r.piloto === S.xPiloto);
+    if (!minhas.some((r) => r.pista === S.xPista)) {
+      S.xPista = minhas.slice().sort((a, b) => (b.s1 != null) - (a.s1 != null) || b.provas - a.provas)[0].pista;
+    }
+  };
+  const X = () => {
+    const pp = dash.data('pista_piloto');
+    if (pp.status !== 'ok' || !pp.data.length) return null;
+    ensureX(pp.data);
+    const me = pp.data.find((r) => r.piloto === S.xPiloto && r.pista === S.xPista) || null;
+    const rf = dash.data('referencia_pista');
+    const ref = rf.status === 'ok' ? rf.data.find((r) => r.pista === S.xPista && r.grupo === S.xRef) || null : null;
+    return {all: pp.data, me, ref};
+  };
+  const trechos = (x) => {
+    if (!x || !x.me || x.me.s1 == null || !x.ref || x.ref.r1 == null) return null;
+    return [1, 2, 3].map((i) => {
+      const best = x.me['s' + i], ref = x.ref['r' + i], media = x.me['m' + i];
+      return {nome: 'S' + i, best, ref, quem: x.ref[`r${i}_piloto`], media, desvio: x.me['d' + i],
+        gap: Math.max(0, best - ref), pct: (best - ref) / ref, cons: media != null ? Math.max(0, media - best) : null};
+    });
+  };
+
+  // ---------- visibilidade e redesenho ----------
+  const NAMES = ['x-pilotos', 'x-pista', 'x-ideal', 'x-ideal-ganho', 'x-melhor', 'x-melhor-prova', 'x-media', 'x-desvio', 'x-provas', 'x-gap', 'x-ref-quem', 'x-ref-tempo',
+    'x-forte', 'x-forte-gap', 'x-fraco', 'x-fraco-gap', 'x-varia', 'x-varia-gap', 'x-barras', 'x-evolucao', 'x-tabela'];
+  const applyX = () => {
+    document.querySelectorAll('[data-xref]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.xref === S.xRef)));
+    const x = X();
+    if (!x) return;
+    const tem = !!trechos(x);
+    document.querySelectorAll('[data-xsec]').forEach((el) => { el.hidden = !tem; });
+    document.querySelectorAll('[data-xnosec]').forEach((el) => { el.hidden = tem; });
+    document.querySelectorAll('#idt-xpiloto').forEach((inp) => { if (inp !== document.activeElement) inp.value = S.xPiloto || ''; });
+  };
+  const redrawX = () => { applyX(); NAMES.forEach((n) => dash.draw(n)); };
+  dash.onData(() => { const sec = document.getElementById('raiox'); if (sec && !sec.hidden) applyX(); });
+  document.querySelectorAll('[data-tab="raiox"]').forEach((b) => b.addEventListener('click', () => applyX()));
+  document.querySelectorAll('[data-xref]').forEach((b) => b.addEventListener('click', () => { S.xRef = b.dataset.xref; redrawX(); }));
+
+  // ---------- piloto digitável ----------
+  const pickX = (txt, strict) => {
+    const pp = dash.data('pista_piloto');
+    if (pp.status !== 'ok') return;
+    const q = norm(txt);
+    if (!q) return;
+    const nomes = [...new Set(pp.data.map((r) => r.piloto))];
+    const exato = nomes.find((p) => norm(p) === q);
+    const parcial = nomes.filter((p) => norm(p).includes(q));
+    const nome = exato || (!strict && parcial.length === 1 ? parcial[0] : null);
+    if (nome && nome !== S.xPiloto) { S.xPiloto = nome; S.xPista = null; redrawX(); }
+  };
+  document.querySelectorAll('#idt-xpiloto').forEach((inp) => {
+    inp.addEventListener('input', () => pickX(inp.value, true));
+    inp.addEventListener('change', () => pickX(inp.value, false));
+    inp.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') { pickX(inp.value, false); inp.blur(); } });
+    inp.addEventListener('blur', () => { inp.value = S.xPiloto || ''; });
+    inp.addEventListener('focus', () => inp.select());
+  });
+
+  dash.draw('x-pilotos', (list) => {
+    const pp = dash.data('pista_piloto');
+    list.replaceChildren();
+    if (pp.status !== 'ok') return;
+    ensureX(pp.data);
+    const cont = new Map();
+    for (const r of pp.data) cont.set(r.piloto, (cont.get(r.piloto) || 0) + r.provas);
+    list.append(...[...cont.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([p, k]) => { const o = document.createElement('option'); o.value = p; o.label = `${k} ${k === 1 ? 'prova' : 'provas'} com volta a volta`; return o; }));
+    applyX();
+  });
+
+  dash.draw('x-pista', (sel) => {
+    const x = X();
+    sel.replaceChildren();
+    if (!x) return;
+    const minhas = x.all.filter((r) => r.piloto === S.xPiloto).sort((a, b) => b.provas - a.provas || a.pista.localeCompare(b.pista));
+    sel.append(...minhas.map((r) => new Option(`${r.pista} · ${r.provas} ${r.provas === 1 ? 'prova' : 'provas'}${r.s1 == null ? ' · sem setores' : ''}`, r.pista)));
+    sel.value = S.xPista;
+    sel.onchange = () => { S.xPista = sel.value; redrawX(); };
+  });
+
+  // ---------- KPIs e frases ----------
+  const txt = (name, f) => dash.draw(name, (el) => { const x = X(); const v = x ? f(x) : null; el.textContent = v == null ? '—' : v; });
+  txt('x-ideal', (x) => (x.me && x.me.ideal != null ? volta(x.me.ideal) : null));
+  txt('x-ideal-ganho', (x) => (x.me && x.me.ideal != null ? seg(Math.max(0, x.me.melhor - x.me.ideal)) : null));
+  txt('x-melhor', (x) => (x.me ? volta(x.me.melhor) : null));
+  txt('x-melhor-prova', (x) => {
+    const c = dash.data('corridas');
+    if (!x.me || c.status !== 'ok') return null;
+    const q = c.data.find((r) => r.corrida === x.me.melhor_corrida);
+    return q ? `P${q.corrida} · ${dataBR(q.data)}` : null;
+  });
+  txt('x-media', (x) => (x.me && x.me.media != null ? volta(x.me.media) : null));
+  txt('x-desvio', (x) => (x.me && x.me.desvio != null ? '±' + seg(x.me.desvio) : null));
+  txt('x-provas', (x) => (x.me ? String(x.me.provas) : null));
+  txt('x-gap', (x) => (x.me && x.ref && x.ref.melhor != null ? mais(Math.max(0, x.me.melhor - x.ref.melhor)) : null));
+  txt('x-ref-quem', (x) => (x.ref ? (x.ref.melhor_piloto === S.xPiloto ? 'Você' : x.ref.melhor_piloto) : null));
+  txt('x-ref-tempo', (x) => (x.ref && x.ref.melhor != null ? volta(x.ref.melhor) : null));
+  const forte = (t) => t.reduce((a, b) => (b.pct < a.pct ? b : a));
+  const fraco = (t) => t.reduce((a, b) => (b.pct > a.pct ? b : a));
+  const varia = (t) => t.filter((r) => r.cons != null).reduce((a, b) => (b.cons > a.cons ? b : a), {cons: -1});
+  txt('x-forte', (x) => { const t = trechos(x); return t ? forte(t).nome : null; });
+  txt('x-forte-gap', (x) => { const t = trechos(x); if (!t) return null; const f = forte(t); return f.gap === 0 ? '0,000 s (você é a referência)' : seg(f.gap); });
+  txt('x-fraco', (x) => { const t = trechos(x); return t ? fraco(t).nome : null; });
+  txt('x-fraco-gap', (x) => { const t = trechos(x); return t ? seg(fraco(t).gap) : null; });
+  txt('x-varia', (x) => { const t = trechos(x); const v = t && varia(t); return v && v.nome ? v.nome : null; });
+  txt('x-varia-gap', (x) => { const t = trechos(x); const v = t && varia(t); return v && v.nome ? seg(v.cons) : null; });
+
+  // ---------- barras: onde está o tempo ----------
+  dash.draw('x-barras', (el) => {
+    el.replaceChildren();
+    const t = trechos(X());
+    if (!t) { el.textContent = '—'; return; }
+    const W = Math.max(280, el.clientWidth || 400), rowH = 46, m = {t: 4, r: 70, b: 22, l: 36}, H = m.t + t.length * rowH + m.b;
+    const cP = tok('--idt-primary'), cC = tok('--idt-c3');
+    const max = d3.max(t, (r) => r.gap + (r.cons || 0)) || 0.1;
+    const x = d3.scaleLinear([0, max], [m.l, W - m.r]);
+    const y = d3.scaleBand(t.map((r) => r.nome), [m.t, m.t + t.length * rowH]).padding(0.32);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    const ticks = x.ticks(4);
+    svg.append('g').selectAll('line').data(ticks).join('line').attr('x1', x).attr('x2', x).attr('y1', m.t).attr('y2', H - m.b).attr('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('text').data(ticks).join('text').attr('x', x).attr('y', H - 4).attr('text-anchor', 'middle').text((v) => v.toFixed(1).replace('.', ',') + ' s');
+    svg.append('g').selectAll('text').data(t).join('text').attr('class', 'strong').attr('x', m.l - 8).attr('y', (r) => y(r.nome) + y.bandwidth() / 2).attr('dy', '0.35em').attr('text-anchor', 'end').text((r) => r.nome);
+    const tip = document.createElement('div'); tip.className = 'idt-tip'; tip.hidden = true; el.appendChild(tip);
+    const show = (ev, r) => {
+      tip.replaceChildren();
+      const h = document.createElement('div'); h.className = 't'; h.textContent = r.nome + ' · referência ' + seg(r.ref) + ' (' + r.quem + ')';
+      const a = document.createElement('div'); a.textContent = 'Ritmo: ' + mais(r.gap);
+      const b = document.createElement('div'); b.textContent = 'Constância: ' + (r.cons != null ? mais(r.cons) : '—');
+      tip.append(h, a, b); tip.hidden = false;
+      const box = el.getBoundingClientRect();
+      let tx = ev.clientX - box.left + 12; if (tx + tip.offsetWidth > box.width) tx = ev.clientX - box.left - tip.offsetWidth - 12;
+      tip.style.left = Math.max(0, tx) + 'px'; tip.style.top = Math.max(0, ev.clientY - box.top - tip.offsetHeight - 8) + 'px';
+    };
+    const g = svg.append('g');
+    t.forEach((r) => {
+      const y0 = y(r.nome), bh = y.bandwidth();
+      g.append('rect').attr('x', x(0)).attr('y', y0).attr('height', bh).attr('width', Math.max(0, x(r.gap) - x(0))).attr('rx', 3).attr('fill', cP)
+        .on('mousemove', (ev) => show(ev, r)).on('mouseleave', () => { tip.hidden = true; });
+      if (r.cons) g.append('rect').attr('x', x(r.gap)).attr('y', y0).attr('height', bh).attr('width', Math.max(0, x(r.gap + r.cons) - x(r.gap))).attr('rx', 3).attr('fill', cC)
+        .on('mousemove', (ev) => show(ev, r)).on('mouseleave', () => { tip.hidden = true; });
+      g.append('text').attr('class', 'strong').attr('x', x(r.gap + (r.cons || 0)) + 6).attr('y', y0 + bh / 2).attr('dy', '0.35em').text(seg(r.gap + (r.cons || 0)));
+    });
+  });
+
+  // ---------- evolução por prova ----------
+  dash.draw('x-evolucao', (el) => {
+    el.replaceChildren();
+    X();
+    const v = dash.data('voltas'), c = dash.data('corridas');
+    if (v.status !== 'ok' || c.status !== 'ok' || !S.xPiloto) { el.textContent = '—'; return; }
+    const ls = v.data.filter((r) => r.piloto === S.xPiloto && r.pista === S.xPista && Number(r.valida) === 1);
+    const by = d3.group(ls, (r) => Number(r.corrida));
+    const pts = [...by].map(([n, rs]) => {
+      const set = rs.filter((r) => r.s1 !== '' && r.s1 != null);
+      const ideal = set.length ? [1, 2, 3].reduce((s, i) => s + d3.min(set, (r) => Number(r['s' + i])), 0) : null;
+      const q = c.data.find((r) => r.corrida === n);
+      return {n, data: q ? q.data : '', melhor: d3.min(rs, (r) => Number(r.tempo_s)), ideal};
+    }).sort((a, b) => a.n - b.n);
+    if (!pts.length) { el.textContent = '—'; return; }
+    const W = Math.max(280, el.clientWidth || 400), H = 220, m = {t: 14, r: 14, b: 30, l: 56};
+    const vals = pts.flatMap((p) => [p.melhor, p.ideal].filter((z) => z != null));
+    const lo = d3.min(vals), hi = d3.max(vals), pad = Math.max(0.2, (hi - lo) * 0.15);
+    const x = d3.scalePoint(pts.map((p) => p.n), [m.l, W - m.r]).padding(0.5);
+    const y = d3.scaleLinear([lo - pad, hi + pad], [H - m.b, m.t]);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    const yt = y.ticks(4);
+    svg.append('g').selectAll('line').data(yt).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y).attr('y2', y).attr('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('text').data(yt).join('text').attr('x', m.l - 8).attr('y', y).attr('dy', '0.35em').attr('text-anchor', 'end').text((s) => { const mm = Math.floor(s / 60); return mm + ':' + (s - mm * 60).toFixed(1).padStart(4, '0').replace('.', ','); });
+    svg.append('g').selectAll('text').data(pts).join('text').attr('x', (p) => x(p.n)).attr('y', H - 8).attr('text-anchor', 'middle').text((p) => 'P' + p.n);
+    const tip = document.createElement('div'); tip.className = 'idt-tip'; tip.hidden = true; el.appendChild(tip);
+    [['melhor', tok('--idt-primary')], ['ideal', tok('--idt-c4')]].forEach(([k, col]) => {
+      const d = pts.filter((p) => p[k] != null);
+      svg.append('path').datum(pts).attr('fill', 'none').attr('stroke', col).attr('stroke-width', 2).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round')
+        .attr('stroke-dasharray', k === 'ideal' ? '5 4' : null).attr('d', d3.line().defined((p) => p[k] != null).x((p) => x(p.n)).y((p) => y(p[k])));
+      svg.append('g').selectAll('circle').data(d).join('circle').attr('cx', (p) => x(p.n)).attr('cy', (p) => y(p[k])).attr('r', 4.5).attr('fill', col)
+        .on('mousemove', (ev, p) => {
+          tip.replaceChildren();
+          const h = document.createElement('div'); h.className = 't'; h.textContent = `P${p.n} · ${p.data ? dataBR(p.data) : ''}`;
+          const a = document.createElement('div'); a.textContent = 'Melhor volta: ' + volta(p.melhor);
+          const b = document.createElement('div'); b.textContent = 'Volta ideal: ' + (p.ideal != null ? volta(p.ideal) : 'sem setores');
+          tip.append(h, a, b); tip.hidden = false;
+          const box = el.getBoundingClientRect();
+          let tx = ev.clientX - box.left + 12; if (tx + tip.offsetWidth > box.width) tx = ev.clientX - box.left - tip.offsetWidth - 12;
+          tip.style.left = Math.max(0, tx) + 'px'; tip.style.top = Math.max(0, ev.clientY - box.top - tip.offsetHeight - 8) + 'px';
+        })
+        .on('mouseleave', () => { tip.hidden = true; });
+    });
+  });
+
+  // ---------- tabela trecho a trecho ----------
+  dash.draw('x-tabela', (el) => {
+    el.replaceChildren();
+    const x = X();
+    const t = trechos(x);
+    if (!t) { el.textContent = '—'; return; }
+    const f = forte(t), w = fraco(t);
+    const tb = document.createElement('table'); tb.className = 'idt-table';
+    const head = ['Trecho', 'Seu melhor', 'Referência', 'Quem fez', 'Diferença', 'Sua média', 'Variação', 'Situação'];
+    const thead = document.createElement('thead'); const hr = document.createElement('tr');
+    head.forEach((h, i) => { const th = document.createElement('th'); th.textContent = h; if (i === 3 || i === 7) th.className = 'l'; hr.appendChild(th); });
+    thead.appendChild(hr); tb.appendChild(thead);
+    const body = document.createElement('tbody');
+    const add = (cells, cls) => { const tr = document.createElement('tr'); if (cls) tr.className = cls; cells.forEach(([v, c]) => { const td = document.createElement('td'); if (c) td.className = c; if (v instanceof Node) td.appendChild(v); else td.textContent = v; tr.appendChild(td); }); body.appendChild(tr); };
+    const badge = (txt, cls) => { const s = document.createElement('span'); s.className = 'idt-badge ' + cls; s.textContent = txt; return s; };
+    t.forEach((r) => add([
+      [r.nome], [seg(r.best)], [seg(r.ref)], [r.quem === S.xPiloto ? 'Você' : r.quem, 'l'], [r.gap === 0 ? '—' : mais(r.gap), r.gap === 0 ? 'best' : ''],
+      [r.media != null ? seg(r.media) : '—'], [r.desvio != null ? '±' + seg(r.desvio) : '—'],
+      [r === f ? badge('Ponto forte', 'b-success') : r === w ? badge('Onde melhorar', 'b-error') : badge('Na média', 'b-neutral'), 'l'],
+    ]));
+    add([['Volta ideal'], [volta(x.me.ideal)], [x.ref.ideal != null ? volta(x.ref.ideal) : '—'], ['soma dos melhores trechos', 'l'],
+      [x.ref.ideal != null ? mais(Math.max(0, x.me.ideal - x.ref.ideal)) : '—'], [x.me.media != null ? volta(x.me.media) : '—'], [x.me.desvio != null ? '±' + seg(x.me.desvio) : '—'], ['', 'l']], 'ideal');
+    tb.appendChild(body); el.appendChild(tb);
+  });
+})();
+</script>

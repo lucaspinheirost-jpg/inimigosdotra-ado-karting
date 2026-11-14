@@ -1,0 +1,161 @@
+  <!-- PÁGINA: Corridas (as folhas de cada prova + análise da corrida e do piloto) -->
+  <style>
+    .cor-top { gap: 14px; }
+    .cor-linha { display: flex; gap: 12px 20px; align-items: center; flex-wrap: wrap; }
+    .cor-pick { display: flex; gap: 6px; align-items: center; flex: 1 1 18rem; max-width: 30rem; min-width: 0; }
+    .cor-pick .idt-sel { flex: 1; }
+    .cor-seta { width: 40px; padding: 0; flex: none; font-size: 18px; }
+    .cor-info { display: grid; gap: 2px; min-width: 0; }
+    .cor-info h2 { font-size: 20px; }
+    .cor-info p { margin: 0; color: var(--idt-muted); font-size: 13px; }
+    .cor-views { display: flex; gap: 4px; background: var(--idt-head); border: 1px solid var(--idt-border); border-radius: calc(var(--idt-r-control) + 4px); padding: 4px; overflow-x: auto; scrollbar-width: none; }
+    .cor-views::-webkit-scrollbar { display: none; }
+    .cor-views button { appearance: none; border: 0; background: transparent; color: var(--idt-ink-600); font: 500 14px var(--idt-sans); height: 36px; padding: 0 14px; border-radius: var(--idt-r-control); cursor: pointer; white-space: nowrap; flex: 1 0 auto; }
+    .cor-views button:hover { color: var(--idt-text); }
+    .cor-views button[aria-selected="true"] { background: var(--idt-surface); color: var(--idt-primary); font-weight: 600; box-shadow: var(--idt-shadow); }
+    .cor-views button[disabled] { opacity: .45; cursor: not-allowed; }
+
+    /* folhas (resultado e tomada) */
+    .cor-folha .idt-tablebox { max-height: none; }
+    .cor-folha .idt-table td.nome { text-align: left; font-weight: 500; }
+    .cor-folha .idt-table tbody tr[data-piloto] { cursor: pointer; }
+    .cor-folha .idt-table td.vazio { color: var(--idt-ink-300); }
+    .cor-folha .idt-table td.atras { color: var(--idt-muted); }
+    .cor-folha .idt-table tr.nc td { color: var(--idt-muted); }
+    .cor-cru { display: block; font-size: 11px; color: var(--idt-muted); font-weight: 400; }
+    .cor-vazio { display: grid; gap: 4px; place-items: center; text-align: center; padding: 32px 16px; color: var(--idt-muted); }
+    .cor-vazio strong { color: var(--idt-text); font-size: 15px; }
+
+    /* volta a volta: grade de todos + balão do piloto */
+    .cor-vv { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+    .cor-grade .idt-tablebox { max-height: 70vh; }
+    .cor-grade .idt-table th, .cor-grade .idt-table td { padding: 7px 9px; }
+    .cor-grade .idt-table td.nome { text-align: left; font-weight: 500; max-width: 13rem; overflow: hidden; text-overflow: ellipsis; }
+    .cor-grade .idt-table tbody tr { cursor: pointer; }
+    .cor-grade .idt-table td.pb { color: var(--idt-primary); font-weight: 700; }
+    .cor-grade .idt-table td.fl { background: #fff4cc; color: var(--idt-ouro-ink); font-weight: 700; }
+    .cor-grade .idt-table tbody tr:hover td.fl, .cor-grade .idt-table tr.is-sel td.fl { background: #ffe999; }
+    .cor-grade .idt-table td.bad { color: var(--idt-ink-300); text-decoration: line-through; }
+    .cor-grade .idt-table td.lenta { color: var(--idt-muted); }
+    .cor-grade .idt-table td.melhor { font-weight: 600; border-right: 1px solid var(--idt-border); }
+    .cor-leg { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--idt-muted); }
+    .cor-leg span { display: inline-flex; align-items: center; gap: 6px; }
+    .cor-leg i { display: inline-block; width: 22px; height: 14px; border-radius: 3px; }
+    .cor-leg .pb { background: var(--idt-primary-soft); outline: 1px solid var(--idt-primary); }
+    .cor-leg .fl { background: #fff4cc; outline: 1px solid var(--idt-ouro); }
+    .cor-leg .bad { background: var(--idt-hover); }
+
+    .cor-balao { background: var(--idt-surface); border: 1px solid var(--idt-border); border-radius: var(--idt-r-card); box-shadow: var(--idt-shadow-pop); padding: 18px 18px 20px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+    .cor-balao-head { display: flex; gap: 10px; align-items: flex-start; }
+    .cor-balao-head > div { display: grid; gap: 2px; min-width: 0; flex: 1; }
+    .cor-balao-head h3 { font-size: 18px; overflow-wrap: anywhere; }
+    .cor-balao-head p { margin: 0; color: var(--idt-muted); font-size: 13px; }
+    .cor-fechar { flex: none; width: 32px; height: 32px; padding: 0; font-size: 18px; color: var(--idt-muted); }
+    .cor-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .cor-mini div { background: var(--idt-head); border: 1px solid var(--idt-border); border-radius: var(--idt-r-control); padding: 8px 10px; display: grid; gap: 1px; min-width: 0; }
+    .cor-mini .l { font-size: 12px; color: var(--idt-muted); }
+    .cor-mini .v { font-family: var(--idt-display); font-weight: 600; font-size: 17px; font-variant-numeric: tabular-nums; }
+    .cor-mini .h { font-size: 11px; color: var(--idt-muted); }
+    .cor-balao h4 { margin: 0; font: 600 14px var(--idt-sans); }
+    .cor-cmp { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 13px; }
+    .cor-cmp th { font-size: 11px; font-weight: 600; color: var(--idt-muted); text-align: right; padding: 0 4px 6px; }
+    .cor-cmp th:first-child, .cor-cmp td:first-child { text-align: left; }
+    .cor-cmp td { padding: 7px 4px; border-top: 1px solid var(--idt-border); text-align: right; white-space: nowrap; }
+    .cor-cmp td.agora { font-weight: 600; }
+    .cor-cmp .melhorou { color: var(--idt-success); font-weight: 600; }
+    .cor-cmp .piorou { color: var(--idt-error); font-weight: 600; }
+    .cor-cmp .igual { color: var(--idt-muted); }
+    .cor-veu { display: none; }
+    .cor-frases { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 13px; }
+    .cor-frases b { font-weight: 600; }
+    .cor-semhist { margin: 0; font-size: 13px; padding: 10px 12px; border-radius: var(--idt-r-control); background: var(--idt-head); border: 1px dashed var(--idt-border); color: var(--idt-ink-600); }
+    .cor-recorde { margin: 0; font-size: 13px; font-weight: 600; padding: 8px 12px; border-radius: var(--idt-r-control); background: #fff4cc; color: var(--idt-ouro-ink); }
+    .cor-hist tr.agora td { background: var(--idt-primary-soft); }
+    .cor-link { all: unset; cursor: pointer; color: var(--idt-primary); }
+    .cor-link:hover { text-decoration: underline; }
+
+    /* volta a volta por piloto: blocos na ordem de chegada, voltas na vertical */
+    .cor-vv-main { display: grid; gap: 12px; min-width: 0; }
+    .cor-blocos { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); align-items: start; }
+    .cor-bloco { background: var(--idt-surface); border: 1px solid var(--idt-border); border-radius: var(--idt-r-card); box-shadow: var(--idt-shadow); overflow: hidden; scroll-margin-top: 100px; }
+    .cor-bloco.is-sel { border-color: var(--idt-primary); box-shadow: 0 0 0 3px var(--idt-primary-ring); }
+    .cor-bloco-head { all: unset; box-sizing: border-box; width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px 12px; cursor: pointer; background: var(--idt-head); border-bottom: 1px solid var(--idt-border); }
+    .cor-bloco-head:hover { background: var(--idt-hover); }
+    .cor-bloco-head:focus-visible { outline: 2px solid var(--idt-primary); outline-offset: -2px; }
+    .cor-bloco-head .idt-rank { margin: 0; flex: none; }
+    .cor-bloco-head .quem { display: grid; min-width: 0; flex: 1; }
+    .cor-bloco-head .quem b { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cor-bloco-head .quem small { font-size: 12px; color: var(--idt-muted); font-variant-numeric: tabular-nums; }
+    .cor-bloco-head .ver { flex: none; font-size: 12px; font-weight: 600; color: var(--idt-primary); }
+    .cor-vt { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 13px; }
+    .cor-vt th { font-size: 11px; font-weight: 600; color: var(--idt-muted); text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--idt-border); }
+    .cor-vt td { text-align: right; padding: 4px 10px; border-bottom: 1px solid var(--idt-ink-100); white-space: nowrap; }
+    .cor-vt th:first-child, .cor-vt td:first-child { text-align: left; color: var(--idt-muted); width: 3rem; }
+    .cor-vt tr:last-child td { border-bottom: 0; }
+    .cor-vt td.d, .cor-vt td.s { color: var(--idt-muted); font-size: 12px; }
+    .cor-vt tr.pb td.t, .cor-vt tr.pb td.d { color: var(--idt-primary); font-weight: 700; }
+    .cor-vt tr.fl td { background: #fff4cc; }
+    .cor-vt tr.fl td.t, .cor-vt tr.fl td.d { color: var(--idt-ouro-ink); font-weight: 700; }
+    .cor-vt tr.bad td { color: var(--idt-ink-300); text-decoration: line-through; }
+    .cor-vt tr.lenta td.t { color: var(--idt-muted); }
+
+    /* análise da corrida */
+    .cor-barras { display: grid; gap: 4px; }
+    .cor-barra { display: grid; grid-template-columns: minmax(7rem, 13rem) 1fr 3.25rem; gap: 10px; align-items: center; font-size: 13px; }
+    .cor-barra .quem { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cor-barra .quem button { all: unset; cursor: pointer; }
+    .cor-barra .quem button:hover { color: var(--idt-primary); text-decoration: underline; }
+    .cor-barra .quem small { color: var(--idt-muted); font-variant-numeric: tabular-nums; margin-right: 6px; }
+    .cor-barra .val { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+    .cor-eixo { position: relative; height: 16px; }
+    .cor-eixo::before { content: ""; position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--idt-ink-300); }
+    .cor-eixo i { position: absolute; top: 2px; height: 12px; border-radius: 3px; }
+    .cor-eixo i.ganhou { background: var(--idt-success); }
+    .cor-eixo i.perdeu { background: var(--idt-error); }
+    .cor-ritmo { position: relative; height: 16px; }
+    .cor-ritmo::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: var(--idt-hover); border-radius: 1px; }
+    .cor-ritmo .seg { position: absolute; top: 7px; height: 2px; background: var(--idt-ink-300); }
+    .cor-ritmo .pt { position: absolute; top: 3px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; }
+    .cor-ritmo .pt.melhor { background: var(--idt-primary); }
+    .cor-ritmo .pt.media { background: var(--idt-surface); border: 2px solid var(--idt-ink-600); }
+    .cor-barra.ritmo { grid-template-columns: minmax(7rem, 13rem) 1fr 8.5rem; }
+    .cor-barra.ritmo .val { font-weight: 500; color: var(--idt-muted); }
+    .cor-barra.ritmo .val b { color: var(--idt-text); }
+
+    @media (min-width: 1100px) {
+      .cor-vv.com-piloto { grid-template-columns: minmax(0, 1fr) 380px; }
+      .cor-vv .cor-balao { position: sticky; top: 92px; max-height: calc(100vh - 108px); overflow: auto; }
+    }
+    @media (max-width: 1099px) {
+      /* tela menor: o balão sobe por baixo, por cima da grade */
+      .cor-vv .cor-balao { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; max-height: 78vh; overflow: auto; border-radius: var(--idt-r-card) var(--idt-r-card) 0 0; padding-bottom: max(20px, env(safe-area-inset-bottom)); }
+      .cor-veu { display: block; position: fixed; inset: 0; z-index: 39; background: rgb(20 23 28 / .35); }
+    }
+    @media (max-width: 720px) {
+      .cor-info h2 { font-size: 18px; }
+      .cor-folha .cor-opt { display: none; }
+      .cor-barra, .cor-barra.ritmo { grid-template-columns: minmax(6rem, 9rem) 1fr auto; gap: 8px; font-size: 12px; }
+      .cor-grade .idt-table td.nome { max-width: 8.5rem; }
+    }
+  </style>
+
+  <section class="idt-page" id="corridas" data-page="corridas" hidden>
+    <div class="idt-card cor-top">
+      <div class="cor-linha">
+        <div class="cor-pick">
+          <button type="button" class="idt-btn secondary cor-seta" id="cor-ant" aria-label="Prova anterior">‹</button>
+          <select class="dash-select idt-sel" id="cor-sel" aria-label="Escolha a prova"></select>
+          <button type="button" class="idt-btn secondary cor-seta" id="cor-prox" aria-label="Próxima prova">›</button>
+        </div>
+        <div class="cor-info"><h2 id="cor-tit">—</h2><p id="cor-meta"></p></div>
+      </div>
+      <div class="cor-views" role="tablist" aria-label="Folhas da prova">
+        <button type="button" role="tab" data-cvista="prova" aria-selected="true">Resultado</button>
+        <button type="button" role="tab" data-cvista="tomada" aria-selected="false">Tomada de tempo</button>
+        <button type="button" role="tab" data-cvista="voltas" aria-selected="false">Volta a volta</button>
+        <button type="button" role="tab" data-cvista="analise" aria-selected="false">Análise da corrida</button>
+      </div>
+    </div>
+    <div id="cor-corpo" class="idt-page"></div>
+  </section>
+

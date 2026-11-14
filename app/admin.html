@@ -1,0 +1,183 @@
+<style>
+/* Administração dentro do painel: usa os tokens do painel (.idt) e só vale dentro de .adm */
+.adm {
+  --primary: var(--idt-primary); --primary-hover: var(--idt-primary-hover); --primary-soft: var(--idt-primary-soft); --on-primary: var(--idt-on-primary); --ring: var(--idt-primary-ring);
+  --surface: var(--idt-surface); --head: var(--idt-head); --border: var(--idt-border); --border-strong: #9aa1ac;
+  --text: var(--idt-text); --muted: var(--idt-muted); --hover: var(--idt-hover);
+  --ok: var(--idt-success); --ok-soft: var(--idt-success-soft); --bad: var(--idt-error); --bad-soft: var(--idt-error-soft);
+  --warn: #9a6200; --warn-soft: #fdf4e3;
+  --display: var(--idt-display); --sans: var(--idt-sans); --r-control: var(--idt-r-control); --r-card: var(--idt-r-card); --shadow: var(--idt-shadow);
+  display: grid; gap: 24px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .adm { --warn: #f2b705; --warn-soft: rgb(242 183 5 / .14); --border-strong: #6b7280; } }
+:root[data-theme="dark"] .adm { --warn: #f2b705; --warn-soft: rgb(242 183 5 / .14); --border-strong: #6b7280; }
+.adm[hidden], .adm [hidden] { display: none !important; }
+.adm .tab { font-variant-numeric: tabular-nums; }
+.adm .eyebrow { display: none; }
+.adm .lead { margin: 0; color: var(--muted); max-width: 72ch; }
+.adm .note { margin: 0; color: var(--muted); font-size: 12px; }
+.adm .sec { display: grid; gap: 4px; }
+.adm .sec h2 { font-size: 22px; }
+.adm .sec-top { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: space-between; }
+.adm .role { font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; background: var(--primary); color: var(--on-primary); }
+
+.adm .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); gap: 12px; }
+.adm .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); box-shadow: var(--shadow); padding: 12px 16px; display: grid; gap: 2px; }
+.adm .kpi .l { font-size: 12px; font-weight: 500; color: var(--muted); }
+.adm .kpi .v { font: 600 22px/28px var(--display); font-variant-numeric: tabular-nums; }
+.adm .kpi.alert { border-color: var(--warn); }
+.adm .kpi.alert .v { color: var(--warn); }
+
+.adm .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; }
+.adm .step { display: grid; grid-template-columns: 32px 1fr; gap: 12px; align-items: start; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); padding: 14px 16px; }
+.adm .step b.n { width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: var(--on-primary); display: grid; place-items: center; font: 600 14px var(--display); }
+.adm .step div { display: grid; gap: 2px; min-width: 0; }
+.adm .step strong { font-weight: 600; }
+.adm .step span { color: var(--muted); font-size: 13px; }
+
+.adm .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: var(--r-control); font: 500 14px var(--sans); border: 0; cursor: pointer; text-decoration: none; transition: background .15s; white-space: nowrap; }
+.adm .btn.sm { height: 32px; padding: 0 12px; font-size: 13px; }
+.adm .btn.primary { background: var(--primary); color: var(--on-primary); }
+.adm .btn.primary:hover { background: var(--primary-hover); }
+.adm .btn.secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border-strong); }
+.adm .btn.secondary:hover { background: var(--hover); }
+.adm .btn.ghost { background: transparent; color: var(--text); }
+.adm .btn.ghost:hover { background: var(--hover); }
+.adm .btn.danger { background: var(--bad); color: #fff; }
+.adm .btn:disabled { opacity: .6; cursor: not-allowed; }
+.adm .btn.secondary[aria-pressed="true"] { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); font-weight: 600; }
+.adm .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.adm .field label { font-size: 14px; font-weight: 500; }
+.adm .field small { font-size: 12px; color: var(--muted); }
+.adm .check { flex-direction: row; align-items: center; gap: 8px; min-height: 40px; }
+.adm .check input { width: 18px; height: 18px; accent-color: var(--primary); }
+.adm .input { height: 40px; width: 100%; min-width: 0; border-radius: var(--r-control); border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); padding: 0 12px; font: 14px var(--sans); }
+.adm .input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--ring); }
+
+.adm .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); box-shadow: var(--shadow); padding: 20px 24px; display: grid; gap: 16px; min-width: 0; }
+.adm .formgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 12px 16px; align-items: end; }
+.adm .actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+.adm .msg { margin: 0; font-size: 13px; padding: 10px 14px; border-radius: var(--r-control); }
+.adm .msg.err { background: var(--bad-soft); color: var(--bad); }
+.adm .msg.ok { background: var(--ok-soft); color: var(--ok); }
+.adm .msg.info { background: var(--primary-soft); color: var(--primary); }
+.adm .msg.warn { background: var(--warn-soft); color: var(--warn); }
+
+.adm .toolbar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.adm .group { display: inline-flex; gap: 8px; flex-wrap: wrap; }
+
+.adm .list { display: grid; gap: 16px; }
+.adm .prova { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); box-shadow: var(--shadow); overflow: hidden; }
+.adm .prova-head { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border); background: var(--head); }
+.adm .prova-head .num { font: 700 22px/1 var(--display); font-variant-numeric: tabular-nums; }
+.adm .prova-head .meta { color: var(--muted); }
+.adm .prova-head .meta b { color: var(--text); font-weight: 600; }
+.adm .prova-head .spacer { flex: 1; }
+.adm .pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.adm .pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.adm .pill.ok { background: var(--ok-soft); color: var(--ok); }
+.adm .pill.warn { background: var(--warn-soft); color: var(--warn); }
+.adm .pill.neutral { background: var(--hover); color: var(--muted); }
+.adm .slots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 860px) { .adm .slots { grid-template-columns: 1fr; } }
+.adm .slot { padding: 16px 20px; display: grid; gap: 10px; align-content: start; min-width: 0; border-right: 1px solid var(--border); }
+.adm .slot:last-child { border-right: 0; }
+@media (max-width: 860px) { .adm .slot { border-right: 0; border-bottom: 1px solid var(--border); } .adm .slot:last-child { border-bottom: 0; } }
+.adm .slot-title { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.adm .slot-title h3 { font-size: 15px; }
+.adm .slot-title span { font-size: 12px; color: var(--muted); }
+.adm .file { display: grid; gap: 4px; padding: 10px 12px; border-radius: var(--r-control); background: var(--head); border: 1px solid var(--border); min-width: 0; }
+.adm .file .fn { font-weight: 600; overflow-wrap: anywhere; }
+.adm .file .fm { font-size: 12px; color: var(--muted); }
+.adm .file .pv { font-size: 13px; }
+.adm .fmt { font-size: 11px; font-weight: 700; letter-spacing: .04em; padding: 1px 6px; border-radius: 4px; background: var(--primary-soft); color: var(--primary); margin-right: 6px; }
+.adm .drop { border: 2px dashed var(--border-strong); border-radius: var(--r-control); padding: 16px; display: grid; justify-items: start; gap: 8px; color: var(--muted); font-size: 13px; transition: background .15s, border-color .15s; }
+.adm .drop.over { border-color: var(--primary); background: var(--primary-soft); }
+.adm .drop.empty { border-style: solid; border-width: 1px; border-color: var(--border); }
+.adm .slot .row, .adm .conf .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.adm .confirm { display: grid; gap: 8px; padding: 10px 12px; border-radius: var(--r-control); background: var(--bad-soft); color: var(--bad); font-size: 13px; }
+.adm .busy { font-size: 13px; color: var(--primary); }
+.adm .empty-state { text-align: center; padding: 48px 16px; color: var(--muted); display: grid; gap: 8px; justify-items: center; }
+.adm .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.adm .launch { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; padding: 12px 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); }
+.adm .launch .spacer { flex: 1; }
+
+/* Conferência (resultado e volta a volta) */
+.adm .conf { border-top: 2px solid var(--primary); padding: 16px 20px 20px; display: grid; gap: 12px; background: var(--surface); }
+.adm .conf h3 { font-size: 17px; }
+.adm .conf-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-control); }
+.adm .conf table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 13px; }
+.adm .conf th { text-align: left; font-weight: 600; font-size: 12px; color: var(--muted); background: var(--head); padding: 8px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.adm .conf td { padding: 6px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.adm .conf tr:last-child td { border-bottom: 0; }
+.adm .conf td.num, .adm .conf th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.adm .conf .input { height: 32px; padding: 0 8px; font-size: 13px; }
+.adm .conf .input.n { width: 64px; text-align: right; }
+.adm .conf .input.t { width: 104px; text-align: right; font-variant-numeric: tabular-nums; }
+.adm .conf .input.bad { border-color: var(--bad); box-shadow: 0 0 0 2px var(--bad-soft); }
+.adm .conf .cru { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.adm .conf .who { display: flex; gap: 6px; align-items: center; min-width: 220px; }
+.adm .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px; white-space: nowrap; }
+.adm .tag.ok { background: var(--ok-soft); color: var(--ok); }
+.adm .tag.sug { background: var(--primary-soft); color: var(--primary); }
+.adm .tag.novo { background: var(--warn-soft); color: var(--warn); }
+.adm .tag.bad { background: var(--bad-soft); color: var(--bad); }
+.adm .x { width: 28px; height: 28px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; font-size: 16px; line-height: 1; }
+.adm .x:hover { background: var(--bad-soft); color: var(--bad); }
+@media (prefers-reduced-motion: reduce) { .adm * { transition: none !important; } }
+</style>
+
+<section class="idt-page adm" id="admin" data-page="admin" hidden>
+  <div class="sec-top">
+    <div class="sec">
+      <h2>Administração</h2>
+      <p class="lead">Cadastre a prova, envie a folha de Corrida, confira os nomes e lance no painel.</p>
+    </div>
+    <span class="role">Administrador</span>
+  </div>
+
+  <div class="kpis" aria-live="polite">
+    <div class="kpi"><span class="l">Provas cadastradas</span><span class="v tab" data-k="provas">—</span></div>
+    <div class="kpi"><span class="l">No painel</span><span class="v tab" data-k="painel">—</span></div>
+    <div class="kpi"><span class="l">Com volta a volta</span><span class="v tab" data-k="voltas">—</span></div>
+    <div class="kpi" id="kpi-pend"><span class="l">Falta lançar</span><span class="v tab" data-k="pend">—</span></div>
+  </div>
+
+  <div class="steps">
+    <div class="step"><b class="n">1</b><div><strong>Cadastre a prova</strong><span>Número, data, kartódromo e traçado.</span></div></div>
+    <div class="step"><b class="n">2</b><div><strong>Envie a folha de Corrida</strong><span>HTML ou PDF do kartódromo são lidos na hora. Foto ou outro formato: digite o resultado.</span></div></div>
+    <div class="step"><b class="n">3</b><div><strong>Confira e lance</strong><span>Confira os nomes (os novos vêm marcados) e clique em Lançar no painel.</span></div></div>
+  </div>
+
+  <p class="msg err" id="adm-nodb" hidden>Não foi possível carregar as provas agora. Recarregue a página.</p>
+
+  <section class="card" id="adm-form" hidden>
+    <div class="sec"><span class="eyebrow" id="adm-form-eyebrow">Nova prova</span><h2 id="adm-form-title" style="font-size:18px">Cadastrar prova</h2></div>
+    <form id="adm-f" class="formgrid" novalidate>
+      <div class="field"><label for="f-num">Número da prova</label><input class="input tab" id="f-num" type="number" min="1" max="999" required></div>
+      <div class="field"><label for="f-data">Data</label><input class="input" id="f-data" type="date" required></div>
+      <div class="field"><label for="f-kart">Kartódromo</label>
+        <select class="input" id="f-kart"><option>Granja Viana</option><option>Interlagos</option><option>Aldeia da Serra</option><option value="__outro">Outro…</option></select></div>
+      <div class="field" id="f-outro-wrap" hidden><label for="f-outro">Nome do kartódromo</label><input class="input" id="f-outro" type="text" maxlength="60"></div>
+      <div class="field"><label for="f-circ">Traçado</label><input class="input" id="f-circ" type="text" maxlength="40" placeholder="Circuito 101"><small>Como aparece na folha do kartódromo.</small></div>
+      <div class="field"><label for="f-obs">Observação</label><input class="input" id="f-obs" type="text" maxlength="140" placeholder="Ex.: pista molhada"></div>
+      <div class="field check"><input id="f-lento" type="checkbox"><label for="f-lento">Piso lento (separa esta prova no Raio-X)</label></div>
+    </form>
+    <p class="msg err" id="adm-form-err" hidden></p>
+    <div class="actions"><button class="btn ghost" type="button" id="adm-form-cancel">Cancelar</button><button class="btn primary" type="button" id="adm-form-save">Salvar prova</button></div>
+  </section>
+
+  <div class="toolbar">
+    <div class="group" role="group" aria-label="Filtrar provas">
+      <button class="btn secondary sm" type="button" data-afilter="todas" aria-pressed="true">Todas</button>
+      <button class="btn secondary sm" type="button" data-afilter="pend" aria-pressed="false">Falta lançar</button>
+      <button class="btn secondary sm" type="button" data-afilter="semvoltas" aria-pressed="false">Sem volta a volta</button>
+    </div>
+    <button class="btn primary" type="button" id="adm-new">Nova prova</button>
+  </div>
+
+  <div class="list" id="adm-list">
+    <div class="empty-state"><strong>Carregando as provas…</strong></div>
+  </div>
+  <datalist id="adm-pilotos"></datalist>
+</section>
