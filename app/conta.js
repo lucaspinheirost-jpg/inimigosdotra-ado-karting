@@ -27,7 +27,6 @@
       modo !== 'nova' ? el('div', { class: 'idt-field' }, el('label', { for: 'idt-login-email' }, 'E-mail'), email) : null,
       modo !== 'esqueci' ? el('div', { class: 'idt-field' }, el('label', { for: 'idt-login-senha' }, modo === 'nova' ? 'Nova senha (mínimo 8 caracteres)' : 'Senha'), senha) : null,
       msg, btn,
-      modo === 'entrar' ? el('button', { class: 'idt-btn ghost sm', type: 'button', onclick: () => abrir('esqueci') }, 'Esqueci a senha') : null,
       modo === 'esqueci' ? el('button', { class: 'idt-btn ghost sm', type: 'button', onclick: () => abrir('entrar') }, 'Voltar') : null);
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -54,7 +53,9 @@
     const titulo = modo === 'entrar' ? 'Entrar como administrador' : modo === 'esqueci' ? 'Esqueci a senha' : 'Criar senha nova';
     dlg.replaceChildren(
       el('div', { class: 'idt-ajuda-head' }, el('h2', { id: 'idt-login-tit' }, titulo), el('button', { type: 'button', class: 'idt-btn ghost idt-ajuda-x', 'aria-label': 'Fechar', onclick: () => dlg.close() }, '×')),
-      el('p', { class: 'idt-note' }, modo === 'entrar' ? 'Só para quem lança as provas. Para ver o painel não precisa entrar.' : modo === 'esqueci' ? 'Digite o e-mail do administrador.' : 'Escolha a senha nova do administrador.'),
+      modo === 'entrar'
+        ? el('p', { class: 'idt-login-aviso' }, 'Apenas o administrador precisa fazer login para lançamento dos dados de corrida.')
+        : el('p', { class: 'idt-note' }, modo === 'esqueci' ? 'Digite o e-mail do administrador.' : 'Escolha a senha nova do administrador.'),
       formulario(modo));
     if (!dlg.open) dlg.showModal();
     const f = dlg.querySelector('input'); if (f) f.focus();
